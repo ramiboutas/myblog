@@ -19,7 +19,7 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 from wagtailcodeblock.blocks import CodeBlock
 
-from .blocks import ImageBlock, BlogPostSectionBlock
+from .blocks import ImageBlock, BlogPostSectionBlock, AlertBlock
 
 
 class BlogPageTag(TaggedItemBase):
@@ -58,11 +58,15 @@ class BlogPostPage(Page):
     view_count = models.PositiveBigIntegerField(default=0, blank=True)
 
     content = StreamField([
-        ('post_section', BlogPostSectionBlock()),
+        # wagtail blocks
         ('heading', blocks.CharBlock(classname="full title")),
-        ('code', CodeBlock(label='Code')),
         ('paragraph', blocks.RichTextBlock()),
+
+        # my custom or third party blocks
+        ('post_section', BlogPostSectionBlock()),
+        ('code', CodeBlock(label='Code')),
         ('image', ImageBlock()),
+        ('alert', AlertBlock()),
         ], null=True, blank=True)
 
 

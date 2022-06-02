@@ -1,0 +1,15 @@
+<div class="border-{{ self.alert_type }} border-5 border-start bg-light p-2 my-2">
+  <strong class="text-secondary">
+    {% if self.alert_type == 'warning' %}
+      <i class="bi bi-exclamation-triangle"></i>
+    {% elif self.alert_type == 'danger'  %}
+      <i class="bi bi-exclamation-triangle"></i>
+    {% else %}
+      <i class="bi bi-info-circle"></i>
+    {% endif %}
+    {{ self.title }}
+  </strong>
+  <p>
+    {{ self.text }}
+  </p>
+</div>
