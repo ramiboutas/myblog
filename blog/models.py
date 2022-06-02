@@ -3,7 +3,7 @@ from django.db import models
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.cache import cache
 from django.core.cache.utils import make_template_fragment_key
-
+from django.conf import settings
 
 from wagtail.core.models import Page, Orderable
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, InlinePanel
@@ -20,6 +20,8 @@ from taggit.models import TaggedItemBase
 from wagtailcodeblock.blocks import CodeBlock
 
 from .blocks import ImageBlock, BlogPostSectionBlock, AlertBlock
+
+
 
 
 class BlogPageTag(TaggedItemBase):

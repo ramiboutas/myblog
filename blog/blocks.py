@@ -62,5 +62,5 @@ class AlertBlock(blocks.StructBlock):
             features=['code', 'bold', 'italic', 'link'])
 
     class Meta:
-        icon = 'doc-full'
+        icon = 'help'
         template = 'blog/blocks/alert_box.html'

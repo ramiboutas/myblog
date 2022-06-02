@@ -218,9 +218,55 @@ WAGTAILSEARCH_BACKENDS = {
 BASE_URL = 'http://example.com'
 
 # Recaptcha
-RECAPTCHA_PUBLIC_KEY = '6LfA4OkfAAAAAESQSzuJcbEPINStI16ILcVTa4fa'
-RECAPTCHA_PRIVATE_KEY = '6LfA4OkfAAAAACCEjEIMrbvgjCq5eDNkw4QRchMn'
+RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
+RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
 NOCAPTCHA = True
+
+
+# social media promoting
+
+SOCIAL_MEDIA_PROMOTING_CHOICES = (
+    ('excel', 'Excel and VBA'),
+    ('web', 'Web development'),
+    ('matlab', 'MATLAB'),
+)
+
+
+INSTAGRAM_ACCOUNTS = {
+    'es': {
+        'API_PUBLIC': 'whatever ES',
+        'USERNAME': 'whatever ES',
+    },
+    'en': {
+        'API_PUBLIC': 'whatever EN',
+        'USERNAME': 'whatever EN',
+    },
+    'de': {
+        'API_PUBLIC': 'whatever DE',
+        'USERNAME': 'whatever DE',
+    },
+
+}
+
+
+
+
+
+
+
+EXCEL_INSTAGRAM_ACCOUNT_EN = 'whatever'
+EXCEL_INSTAGRAM_ACCOUNT_ES = 'whatever'
+EXCEL_INSTAGRAM_ACCOUNT_DE = 'whatever'
+
+WEB_DEV_INSTAGRAM_ACCOUNT_EN = 'whatever'
+WEB_DEV_INSTAGRAM_ACCOUNT_ES = 'whatever'
+WEB_DEV_INSTAGRAM_ACCOUNT_DE = 'whatever'
+
+MATLAB_INSTAGRAM_ACCOUNT_EN = 'whatever'
+MATLAB_INSTAGRAM_ACCOUNT_ES = 'whatever'
+MATLAB_INSTAGRAM_ACCOUNT_DE = 'whatever'
+
+
 
 
 # ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
