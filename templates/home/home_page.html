@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load i18n wagtailimages_tags wagtailcore_tags %}
+
+
+{% block content %}
+
+<div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+  <div class="col-md-6 px-0">
+    <h1 class="display-4 fst-italic">{{ self.banner_title }}</h1>
+    <p class="lead my-3">{{ self.banner_subtitle | richtext }}</p>
+    {% if self.banner_cta %}
+      <a class="btn btn-primary btn-lg" href="#" role="button">@todo</a>
+    {% endif %}
+    <p class="lead mb-0"><a href="#" class="text-white fw-bold">Continue reading...</a></p>
+  </div>
+</div>
+
+
+<div class="row g-5">
+  <div class="col-md-8">
+    <h2 class="pb-4 mb-4 fst-italic border-bottom">{% trans "Last posts" %}</h2>
+    {% for post in recent_posts %}
+      <article class="blog-post">
+
+        <h3 class="blog-post-title"><a href="{{ post.url }}">{{ post.title }}</a></h3>
+        <p class="blog-post-meta">{{ post.first_published_at }} by <a href="#">{{ post.owner.first_name }}</a></p>
+        <p> @description </p>
+      </article>
+    {% endfor %}
+  </div>
+
+<div class="col-md-4">
+  <div class="position-sticky" style="top: 2rem;">
+    <div class="p-4 mb-3 bg-light rounded">
+      <h4 class="fst-italic">{% trans "@todo" %}</h4>
+      <p class="mb-0">Customize this section to tell your visitors a little bit about your publication, writers, content, or something else entirely. Totally up to you.</p>
+    </div>
+
+    
+    {% include "partials/sidebar_categories.html" %}
+    {% if page %}
+      <div class="p-4">
+        <h4 class="fst-italic">{% translate "Change the language" %}</h4>
+          <ol class="list-unstyled">
+            {% for translation in page.get_translations.live %}
+                {% get_language_info for translation.locale.language_code as lang %}
+                <li>
+                  <a href="{% pageurl translation %}" rel="alternate" hreflang="{{ language_code }}">
+                      {{ lang.name_local }}
+                  </a>
+                </li>
+            {% endfor %}
+          </ol>
+      </div>
+    {% endif %}
+  </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

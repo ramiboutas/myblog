@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+
+{% load i18n wagtailimages_tags wagtailcore_tags %}
+
+
+{% block content %}
+
+
+
+<div class="p-4 p-md-5 mb-4 text-secondary rounded bg-light">
+  <div class="col px-0">
+    <p class="text-end float-end">
+      <img src="{{ self.owner.wagtail_userprofile.avatar.url }}"
+        alt="mdo" width="32" height="32" class="rounded-circle">
+        {% if self.owner.first_name %}
+          {{ self.owner.first_name }} {{ self.owner.last_name }}
+        {% else %}
+          {{ self.owner.username }}
+        {% endif %}
+    </p>
+
+    <h1 class="display-4 fst-italic">{{ self.title }}</h1>
+    <p class="lead my-3">{{ self.first_published_at }}</p>
+
+  </div>
+</div>
+
+
+
+
+<div class="row g-5 mt-5">
+  <div class="col-md-3 col-md-pull-3">
+    <div class="position-sticky" style="top: 2rem;">
+      <div class="mb-3 bg-white rounded">
+        <h4 class="fst-italic">{% trans "Table of content" %}</h4>
+        <div id="list-example" class="list-group">
+          {% for block in self.content %}
+              {% if block.block_type == "post_section" %}
+                <a href="#{{ block.id }}" class="list-group-item list-group-item-action" >{{ block.value }}</a>
+              {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div  class="col-md-9 col-md-push-9">
+    <div  data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" class="scrollspy-example" tabindex="0">
+      {% for block in self.content %}
+        {% include_block block %}
+      {% endfor %}
+    </div>
+  </div>
+
+
+
+</div>
+
+{% endblock %}
+
+
+{% block  extra_js %}
+
+
+
+{% endblock %}

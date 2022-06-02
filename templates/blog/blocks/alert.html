@@ -1,0 +1,15 @@
+
+
+{% if self.icon == 'info' %}
+<i class="bi bi-info-circle"></i>
+{% elif self.icon == 'exclamation' %}
+<i class="bi bi-exclamation-triangle"></i>
+{% elif self.icon == 'lightbulb' %}
+<i class="bi bi-lightbulb"></i>
+{% endif %}
+
+
+<div class="alert alert-{{sel.type}}" role="alert">
+  {# try with snippets or model snippet #}
+  A simple success alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+</div>

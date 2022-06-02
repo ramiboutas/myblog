@@ -1,0 +1,9 @@
+{% load wagtailimages_tags %}
+
+{% image self.image width-1200 as img %}
+<figure class="figure">
+  <img class="figure-img img-fluid rounded" src="{{ img.url }}" alt="{{ img.alt }}">
+  {% if self.caption %}
+    <figcaption class="figure-caption text-center">{{ self.caption }}</figcaption>
+  {% endif %}
+</figure>

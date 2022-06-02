@@ -1,0 +1,9 @@
+{% load i18n %}
+<div class="p-4">
+  <h4 class="fst-italic">{% translate "Categories" %}</h4>
+  <ol class="list-unstyled mb-0">
+    {% for category in all_categories %}
+      <li> <a href="?category={{ category.slug }}">{{ category.name }}</a> </li>
+    {% endfor %}
+  </ol>
+</div>
