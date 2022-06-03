@@ -1,4 +1,4 @@
-{% load menu_tags i18n %}
+{% load menu_tags i18n wagtailcore_tags %}
 
 {% get_menu "main" as navigation %}
 
@@ -10,6 +10,24 @@
         <a class="blog-header-logo text-secondary" href="#">RamiBlog</a>
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
+        <div class="dropdown me-2">
+
+          <a class="btn btn-light dropdown-toggle" role="button"
+              data-bs-toggle="dropdown" >
+            <i class="bi bi-globe"></i> {{ self.locale }}
+          </a>
+          <ul class="dropdown-menu">
+            {% for translation in page.get_translations.live %}
+              {% get_language_info for translation.locale.language_code as lang %}
+                <li>
+                  <a class="dropdown-item"  rel="alternate"
+                    href="{% pageurl translation %}"  hreflang="{{ language_code }}">
+                    {{ lang.name_local }}
+                  </a>
+                </li>
+            {% endfor %}
+          </ul>
+        </div>
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 w-100">
           <input type="search" class="form-control" placeholder="{% translate 'Search' %}">
         </form>
@@ -24,5 +42,5 @@
       {% endfor %}
     </nav>
   </div>
--->
+  -->
 </div>

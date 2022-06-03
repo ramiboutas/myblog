@@ -19,11 +19,13 @@
 
         {# Global stylesheets #}
         <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-toc.min.css' %}"/>
         <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap_blog.css' %}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
 
         <!-- Custom styles for this template -->
-        <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
 
 
         {% block extra_css %}
@@ -31,7 +33,7 @@
         {% endblock %}
     </head>
 
-    <body class="{% block body_class %}{% endblock %}" style="position: relative;">
+    <body class="{% block body_class %}{% endblock %}" data-bs-spy="scroll" data-bs-target="#toc">
         {% wagtailuserbar %}
 
 
@@ -44,7 +46,9 @@
         {% include "partials/footer.html" %}
 
         {# Global javascript #}
+        <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap-toc.min.js' %}"></script>
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}

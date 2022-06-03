@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.utils.translation import gettext as _
 from django.utils.safestring import mark_safe
+from django.utils.text import slugify
 
 from wagtail.core import blocks
 from wagtailmarkdown.blocks import MarkdownBlock as ThirdPartyMarkdownBlock
@@ -40,6 +41,11 @@ class ImageBlock(blocks.StructBlock):
 
 class BlogPostSectionBlock(blocks.CharBlock):
     # header = blocks.CharBlock(required=True)
+
+    def get_context(self, value, parent_context=None):
+        context = super().get_context(value, parent_context=parent_context)
+        context['value_slug'] = slugify(value)
+        return context
 
     class Meta:
         icon = 'doc-full'
