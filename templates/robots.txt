@@ -1,0 +1,7 @@
+User-Agent: *
+Disallow: /admin/
+
+# Sitemap files
+Sitemap: {{ wagtail_site.root_url }}/en/sitemap.xml
+Sitemap: {{ wagtail_site.root_url }}/es/sitemap.xml
+Sitemap: {{ wagtail_site.root_url }}/de/sitemap.xml

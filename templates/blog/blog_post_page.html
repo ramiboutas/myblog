@@ -1,21 +1,30 @@
 {% extends "base.html" %}
+{% load i18n wagtailimages_tags wagtailcore_tags wagtailmetadata_tags %}
 
-
-{% load i18n wagtailimages_tags wagtailcore_tags %}
+{% block meta_tag %}
+  {% meta_tags %}
+{% endblock %}
 
 
 {% block content %}
 
-
-
-<div class="p-4 p-md-5 mb-4 text-light rounded bg-secondary">
+<header class="p-4 p-md-5 mb-4 text-light rounded bg-secondary">
   <div class="col px-0">
     <h1 class="display-2 text-center my-5 animate__animated animate__backInUp">{{ self.title }}</h1>
     <div class="row">
       <p class="col-6 lead my-3 animate__animated animate__slideInRight animate__delay-1s">{{ self.first_published_at | date:"d N Y" }}</p>
       <p class="col-6 text-end animate__animated animate__slideInLeft animate__delay-1s">
+        <!--
         <img src="{{ self.owner.wagtail_userprofile.avatar.url }}"
-          alt="mdo" width="32" height="32" class="rounded-circle">
+          alt="mdo"  class="rounded-circle">
+-->
+          {% if self.owner.wagtail_userprofile.avatar.url %}
+            <img class="avatar avatar-32 bg-light rounded-circle text-white"
+              width="32" height="32" src="{{self.owner.wagtail_userprofile.avatar.url}}">
+          {% else %}
+            <i class="avatar avatar-32 bi bi-person-circle"></i>
+          {% endif %}
+
           {% if self.owner.first_name %}
             {{ self.owner.first_name }} {{ self.owner.last_name }}
           {% else %}
@@ -24,30 +33,25 @@
       </p>
     </div>
   </div>
-</div>
+</header>
 
 
 <div class="row g-5 mt-5">
   <div class="col-md-2 col-md-pull-2">
     <div class="position-sticky" style="top: 2rem;">
         <nav id="toc" data-toggle="toc"></nav>
-
     </div>
   </div>
   <div class="col-md-10 col-md-push-10" >
-    <div>
+    <article>
       {% for block in self.content %}
         {% include_block block %}
       {% endfor %}
-    </div>
+    </article>
   </div>
 </div>
 
 {% endblock %}
 
-
 {% block  extra_js %}
-
-
-
 {% endblock %}

@@ -4,13 +4,14 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.cache import cache
 from django.core.cache.utils import make_template_fragment_key
 from django.conf import settings
+from django.utils import timezone
 
-from wagtail.core.models import Page, Orderable
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, InlinePanel
-from wagtail.images.edit_handlers import ImageChooserPanel
-
-from wagtail.core.fields import StreamField
 from wagtail.core import blocks
+from wagtail.core.models import Page, Orderable
+from wagtail.core.fields import StreamField
+from wagtail.contrib.routable_page.models import RoutablePageMixin, route
+from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
@@ -18,9 +19,9 @@ from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 from wagtailcodeblock.blocks import CodeBlock
+from wagtailmetadata.models import MetadataPageMixin
 
 from .blocks import ImageBlock, BlogPostSectionBlock, AlertBlock
-
 
 
 
@@ -45,10 +46,8 @@ class BlogCategory(models.Model):
     def __str__(self):
         return self.name
 
-# ADD THIS! TABLE OF CONTENTS
-# https://stackoverflow.com/questions/58120483/wagtail-blog-post-table-of-contents
 
-class BlogPostPage(Page):
+class BlogPostPage(MetadataPageMixin, Page):
     """Parental post blog page. """
     localize_default_translation_mode = "simple"
     subpage_types = []
@@ -82,6 +81,7 @@ class BlogPostPage(Page):
         FieldPanel('view_count', widget=forms.NumberInput(attrs={'disabled': 'disabled', 'readonly': 'readonly'}))
         ]
 
+
     def serve(self, request):
         self.view_count += 1
         self.save()
@@ -92,10 +92,13 @@ class BlogPostPage(Page):
         cache.delete(key)
         return super().update(*args, **kwargs)
 
+    def save(self, *args, **kwargs):
+        # in case I need it later
+        super(self.__class__, self).save(*args, **kwargs)
 
 
 
-class BlogListingPage(Page):
+class BlogListingPage(RoutablePageMixin, Page):
     """ Listing page lists all the Blog Detail Pages. """
     max_count = 1
     subpage_types = ['blog.BlogPostPage']
@@ -105,6 +108,33 @@ class BlogListingPage(Page):
     content_panels = Page.content_panels + [
             FieldPanel('custom_title'),
     ]
+
+    def get_posts(self):
+        return BlogPostPage.objects.live().filter(locale=Locale.get_active()).order_by('-first_published_at')
+
+    @route(r'^category/(?P<category>[-\w]+)/$')
+    def post_by_category(self, request, category, *args, **kwargs):
+        self.posts = self.get_posts().filter(categories__blog_category__slug=category)
+        return self.render(request)
+
+    @route(r'^$')
+    def post_list(self, request, *args, **kwargs):
+        self.posts = self.get_posts()
+        return self.render(request)
+
+    # https://www.accordbox.com/blog/wagtail-seo-guide/#sitemap
+    def get_sitemap_urls(self, request):
+        # Uncomment to have no sitemap for this page
+        # return []
+        sitemap = super().get_sitemap_urls(request)
+        # sitemap.append(
+        #     {
+        #         "location": self.full_url + self.reverse_subpage("latest_posts"),
+        #         "lastmod": (self.last_published_at or self.latest_revision_created_at),
+        #         "priority": 0.9,
+        #     }
+        # )
+        return sitemap
 
     def get_context(self, request, *args, **kwargs):
         """ Adding custom stuff to our context """
