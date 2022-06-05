@@ -33,7 +33,7 @@ page.locale.language_code
 
 
 
-* Auto promoting page instances in instagram (3 accounts es, en, de): auto generate images from page instance titles and post it through the API
+* Auto promoting page instances in instagram (3 accounts es, en, de): auto generate images from page instance titles and post it through the API https://developers.facebook.com/docs/instagram-api/guides/content-publishing/?locale=es_ES
 
 * Auto promoting in facebook (3 pages es, en, de): post it through the API, https://developers.facebook.com/docs/pages/publishing/
 
