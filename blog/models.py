@@ -1,10 +1,12 @@
 from django import forms
 from django.db import models
+from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.cache import cache
 from django.core.cache.utils import make_template_fragment_key
-from django.conf import settings
+from django.core.validators import MinValueValidator
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.core import blocks
@@ -22,7 +24,7 @@ from wagtailcodeblock.blocks import CodeBlock
 from wagtailmetadata.models import MetadataPageMixin
 
 from .blocks import ImageBlock, BlogPostSectionBlock, AlertBlock
-
+from utils.times import one_hour_from_now
 
 
 class BlogPageTag(TaggedItemBase):
@@ -57,6 +59,25 @@ class BlogPostPage(MetadataPageMixin, Page):
     categories = ParentalManyToManyField("blog.BlogCategory", blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     view_count = models.PositiveBigIntegerField(default=0, blank=True)
+    show_in_listings = models.BooleanField(default=True)
+
+    # promoting in social media
+    promoting_time = models.DateTimeField(default=one_hour_from_now, null=True)
+    share_in_webdev_accounts = models.BooleanField(default=False, null=True, blank=True)
+    share_in_matlab_accounts = models.BooleanField(default=False, null=True, blank=True)
+    share_in_excel_accounts = models.BooleanField(default=False, null=True, blank=True)
+
+    promote_in_instagram = models.BooleanField(default=True, null=True, blank=True)
+    promote_in_telegram = models.BooleanField(default=True, null=True, blank=True)
+    promote_in_facebook = models.BooleanField(default=True, null=True, blank=True)
+    promote_in_linkedin = models.BooleanField(default=True, null=True, blank=True)
+    promote_in_twitter = models.BooleanField(default=True, null=True, blank=True)
+
+    post_text_for_instagram = models.TextField(max_length=2000, null=True, blank=True)
+    post_text_for_telegram = models.TextField(max_length=2000, null=True, blank=True)
+    post_text_for_facebook = models.TextField(max_length=2000, null=True, blank=True)
+    post_text_for_linkedin = models.TextField(max_length=1300, null=True, blank=True)
+    post_text_for_twitter = models.TextField(max_length=140, null=True, blank=True)
 
     content = StreamField([
         # wagtail blocks
@@ -72,13 +93,47 @@ class BlogPostPage(MetadataPageMixin, Page):
 
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel([FieldPanel('categories', widget=forms.CheckboxSelectMultiple)], heading='Categories'),
-        FieldPanel('tags'),
-        StreamFieldPanel('content'),
+        MultiFieldPanel([
+            FieldPanel('categories', widget=forms.CheckboxSelectMultiple)], heading='Categories'),
+            FieldPanel('tags'),
+            StreamFieldPanel('content'),
         ]
 
+    promote_panels = Page.promote_panels + [
+        MultiFieldPanel([
+            FieldPanel('promoting_time', heading=_('When to post in social media')),
+            FieldPanel('share_in_webdev_accounts', heading=_('Share in WEBDEV social media accounts')),
+            FieldPanel('share_in_matlab_accounts', heading=_('Share in MATLAB social media accounts')),
+            FieldPanel('share_in_excel_accounts', heading=_('Share in EXCEL-VBA  social media accounts')),
+        ], heading="Sharing, when and where"),
+        MultiFieldPanel([
+            FieldPanel('promote_in_instagram'),
+            FieldPanel('post_text_for_instagram'),
+        ], heading="Instagram"),
+        MultiFieldPanel([
+            FieldPanel('promote_in_facebook'),
+            FieldPanel('post_text_for_facebook'),
+        ], heading="Facebook"),
+        MultiFieldPanel([
+            FieldPanel('promote_in_twitter'),
+            FieldPanel('post_text_for_twitter'),
+        ], heading="Twitter"),
+        MultiFieldPanel([
+            FieldPanel('promote_in_telegram'),
+            FieldPanel('post_text_for_telegram'),
+        ], heading="Telegram"),
+        MultiFieldPanel([
+            FieldPanel('promote_in_linkedin'),
+            FieldPanel('post_text_for_linkedin'),
+        ], heading="Linkedin"),
+    ]
+
+
+
+
     settings_panels = Page.settings_panels + [
-        FieldPanel('view_count', widget=forms.NumberInput(attrs={'disabled': 'disabled', 'readonly': 'readonly'}))
+        FieldPanel('view_count', widget=forms.NumberInput(attrs={'disabled': 'disabled', 'readonly': 'readonly'})),
+        FieldPanel('show_in_listings')
         ]
 
 
@@ -110,7 +165,8 @@ class BlogListingPage(RoutablePageMixin, Page):
     ]
 
     def get_posts(self):
-        return BlogPostPage.objects.live().filter(locale=Locale.get_active()).order_by('-first_published_at')
+        return BlogPostPage.objects.live().filter(
+            locale=Locale.get_active(), show_in_listings=True).order_by('-first_published_at')
 
     @route(r'^category/(?P<category>[-\w]+)/$')
     def post_by_category(self, request, category, *args, **kwargs):

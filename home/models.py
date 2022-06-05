@@ -37,7 +37,8 @@ class HomePage(Page):
     def get_context(self, request, *args, **kwargs):
         """ Adding custom stuff to our context """
         context = super().get_context(request, *args, **kwargs)
-        recent_posts = BlogPostPage.objects.live().filter(locale=Locale.get_active()).order_by('-first_published_at')[:10]
+        recent_posts = BlogPostPage.objects.live().filter(
+                    locale=Locale.get_active(), show_in_listings=True).order_by('-first_published_at')[:10]
         context['recent_posts'] = recent_posts
         context['categories'] = BlogCategory.objects.all()
         return context

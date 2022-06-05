@@ -1,5 +1,8 @@
 import os
 import textwrap
+import requests
+import telegram
+from telegram.utils.helpers import escape_markdown
 from io import BytesIO
 from PIL import Image as PillowImage
 from PIL import ImageDraw as PillowImageDraw
@@ -16,8 +19,61 @@ WagtailImage = get_image_model()
 
 from .models import BlogPostPage
 
+def escape_html_for_telegram(text):
+    text.replace("<", "&lt;")
+    text.replace(">", "&gt;")
+    text.replace("&", "&amp;")
+    return text
+
+
+def temporal_function_post_in_social_media(instance):
+    # include in tasks.py later!
+    if instance.promote_in_instagram:
+        pass
+
+    if instance.promote_in_telegram:
+        post_text = instance.post_text_for_telegram
+        if post_text == instance.title:
+            text = f'{post_text} \n\n<a href="{instance.full_url}">{instance.full_url}</a>'
+        else:
+            text = f'{post_text} \n\n<a href="{instance.full_url}">{instance.title}</a>'
+        parsed_text = escape_html_for_telegram(text)
+        if instance.share_in_matlab_accounts or True: # remove the True !!
+            matlab_accounts = settings.TELEGRAM_ACCOUNTS_FOR_MATLAB
+            api_key = matlab_accounts[instance.locale.language_code]["BOT_API_KEY"]
+            channel = matlab_accounts[instance.locale.language_code]["CHANNEL_NAME"]
+            bot = telegram.Bot(token=api_key)
+            bot.send_message(chat_id=channel, text=parsed_text,
+                            parse_mode=telegram.ParseMode.HTML,
+                            disable_web_page_preview=False)
+
+    if instance.promote_in_facebook:
+        pass
+
+    if instance.promote_in_linkedin:
+        pass
+
+    if instance.promote_in_twitter:
+        pass
+
+
+
+
+# >>> from django.conf import settings
+# >>> accounts = settings.INSTAGRAM_ACCOUNTS
+# >>> accounts
+# {'es': {'API_PUBLIC': 'whatever ES', 'USERNAME': 'whatever ES'}, 'en': {'API_PUBLIC': 'whatever EN', 'USERNAME': 'whatever EN'}, 'de': {'API_PUBLIC': 'whatever DE', 'USERNAME': 'whatever DE'}}
+# >>> accounts["en"]
+# {'API_PUBLIC': 'whatever EN', 'USERNAME': 'whatever EN'}
+# >>> accounts["en"]["API_PUBLIC"]
+# 'whatever EN'
+#
+# if "page" is a Page instance, we can get its language code:
+# page.locale.language_code
+
 @receiver(pre_save, sender=BlogPostPage)
 def create_search_image(sender, instance, *args, **kwargs):
+    # move to tasks.py later
     if not instance.search_image:
         MAX_W, MAX_H = 500, 500
         img = PillowImage.new('RGB', (MAX_W, MAX_H), color = (0, 0, 0))
@@ -33,7 +89,33 @@ def create_search_image(sender, instance, *args, **kwargs):
             w, h = draw.textsize(line, font=font_big)
             draw.text(((MAX_W - w) / 2, current_h), line, font=font_big, fill=(255, 255, 255))
             current_h += h + pad
+
         img_bytes = BytesIO()
         img.save(img_bytes, 'JPEG')
         instance.search_image = WagtailImage.objects.create(title=instance.title,
                     file=ImageFile(img_bytes, name=f'METADATA-{instance.slug}.jpg'))
+
+
+@receiver(page_published, sender=BlogPostPage)
+def create_default_social_media_text(sender, instance, *args, **kwargs):
+    """
+    Default post text for social media is created (populated from instance.title),
+    if no text is provided and if the editor wants to promote the page.
+    """
+    if not instance.post_text_for_instagram and instance.promote_in_instagram:
+        instance.post_text_for_instagram = instance.title
+
+    if not instance.post_text_for_telegram and instance.promote_in_telegram:
+        instance.post_text_for_telegram = instance.title
+
+    if not instance.post_text_for_facebook and instance.promote_in_facebook:
+        instance.post_text_for_facebook = instance.title
+
+    if not instance.post_text_for_linkedin and instance.promote_in_linkedin:
+        instance.post_text_for_linkedin = instance.title
+
+    if not instance.post_text_for_twitter and instance.promote_in_twitter:
+        instance.post_text_for_twitter = instance.title
+
+    instance.save()
+    temporal_function_post_in_social_media(instance)

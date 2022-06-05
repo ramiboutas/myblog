@@ -225,16 +225,23 @@ RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
 NOCAPTCHA = True
 
 
-# social media promoting
 
-SOCIAL_MEDIA_PROMOTING_CHOICES = (
-    ('excel', 'Excel and VBA'),
-    ('web', 'Web development'),
-    ('matlab', 'MATLAB'),
-)
+TELEGRAM_ACCOUNTS_FOR_MATLAB = {
+    'es': {
+        'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
+        'CHANNEL_NAME': '@matlabes',
+    },
+    'en': {
+        'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
+        'CHANNEL_NAME': '@matlabstuff',
+    },
+    'de': {
+        'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
+        'CHANNEL_NAME': '@matlabde',
+    },
+}
 
-
-INSTAGRAM_ACCOUNTS = {
+INSTAGRAM_ACCOUNTS_FOR_MATLAB = {
     'es': {
         'API_PUBLIC': 'whatever ES',
         'USERNAME': 'whatever ES',
@@ -247,7 +254,6 @@ INSTAGRAM_ACCOUNTS = {
         'API_PUBLIC': 'whatever DE',
         'USERNAME': 'whatever DE',
     },
-
 }
 
 EXCEL_INSTAGRAM_ACCOUNT_EN = 'whatever'
