@@ -3,6 +3,7 @@ import textwrap
 import requests
 import telegram
 from telegram.utils.helpers import escape_markdown
+import qrcode
 from io import BytesIO
 from PIL import Image as PillowImage
 from PIL import ImageDraw as PillowImageDraw
@@ -76,13 +77,29 @@ def create_search_image(sender, instance, *args, **kwargs):
     # move to tasks.py later
     if not instance.search_image:
         MAX_W, MAX_H = 500, 500
+        margin = 30
         img = PillowImage.new('RGB', (MAX_W, MAX_H), color = (0, 0, 0))
+
+        qr = qrcode.QRCode(box_size=3)
+        qr.add_data(instance.full_url)
+        # qr.make(fit=True)
+        qr_img = qr.make_image()
+        qr_pos = (int(MAX_W/2-67), int(MAX_H-margin*6))
+        img.paste(qr_img, qr_pos)
+        # img_saved.save(img_bytes, 'JPEG')
+
+
+
         draw = PillowImageDraw.Draw(img)
         font_big = PillowImageFont.truetype('OpenSans-Regular.ttf', 40)
-        font_small = PillowImageFont.truetype('OpenSans-Regular.ttf', 20)
+        font_small = PillowImageFont.truetype('OpenSans-Regular.ttf', 12)
         # border
-        shape = [(30, 30), (MAX_W - 30, MAX_H - 30)]
+        shape = [(margin, margin), (MAX_W - margin, MAX_H - margin)]
         draw.rectangle(shape, outline="white")
+
+        w, h = draw.textsize(instance.get_parent().full_url, font=font_small)
+        draw.text(((MAX_W - w) / 2, margin*2), instance.get_parent().full_url, font=font_small, fill=(246, 146, 188))
+
         paragraph = textwrap.wrap(instance.title, width=20)
         current_h, pad = 100, 10
         for line in paragraph:
@@ -92,6 +109,7 @@ def create_search_image(sender, instance, *args, **kwargs):
 
         img_bytes = BytesIO()
         img.save(img_bytes, 'JPEG')
+
         instance.search_image = WagtailImage.objects.create(title=instance.title,
                     file=ImageFile(img_bytes, name=f'METADATA-{instance.slug}.jpg'))
 
