@@ -114,8 +114,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -158,7 +156,6 @@ WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
 ]
 
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
@@ -185,7 +182,7 @@ MEDIA_URL = '/media/'
 
 # Wagtail settings
 
-WAGTAIL_SITE_NAME = 'ramiboutas.com'
+WAGTAIL_SITE_NAME = 'www.ramiboutas.com'
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
@@ -209,7 +206,7 @@ WAGTAILSEARCH_BACKENDS = {
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'http://example.com'
+BASE_URL = 'https://www.ramiboutas.com'
 
 # Recaptcha
 RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
