@@ -2,7 +2,7 @@ import os
 from .base import *
 
 
-DEBUG = False
+DEBUG = True
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
@@ -11,8 +11,6 @@ ALLOWED_HOSTS = ['ramiboutas.com', 'www.ramiboutas.com', '207.154.205.99', 'loca
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-print("ALLOWED_HOSTS")
-print(ALLOWED_HOSTS)
 
 INTERNAL_IPS = ('127.0.0.1')
 

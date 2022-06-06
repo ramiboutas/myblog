@@ -25,7 +25,7 @@ urlpatterns = urlpatterns + i18n_patterns(
     path('search/', search_views.search, name='search'),
 )
 
-if settings.DEBUG:
+if settings.DEBUG or True:
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
