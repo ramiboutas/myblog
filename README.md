@@ -44,3 +44,7 @@ page.locale.language_code
 * Auto promoting in linkedin (use my profile): post it through the API https://medium.com/@9cv9official/understanding-apis-and-using-linkedins-api-to-make-a-post-1563cb3b0064
 
 * check for more tasks to do :)
+
+
+# This blog runs a Droplet from DigitalOcean ( www.ramiboutas.com )
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=f1af247b90c6&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
