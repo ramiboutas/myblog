@@ -76,30 +76,31 @@ def temporal_function_post_in_social_media(instance):
 def create_search_image(sender, instance, *args, **kwargs):
     # move to tasks.py later
     if not instance.search_image:
+        # geometry definitions
         MAX_W, MAX_H = 500, 500
         margin = 30
+        shape = [(margin, margin), (MAX_W - margin, MAX_H - margin)]
         img = PillowImage.new('RGB', (MAX_W, MAX_H), color = (0, 0, 0))
 
+        # QR code creation and paste it into the image
         qr = qrcode.QRCode(box_size=3)
         qr.add_data(instance.full_url)
-        # qr.make(fit=True)
         qr_img = qr.make_image()
         qr_pos = (int(MAX_W/2-67), int(MAX_H-margin*6))
         img.paste(qr_img, qr_pos)
-        # img_saved.save(img_bytes, 'JPEG')
 
-
-
+        # draw definition
         draw = PillowImageDraw.Draw(img)
         font_big = PillowImageFont.truetype('OpenSans-Regular.ttf', 40)
         font_small = PillowImageFont.truetype('OpenSans-Regular.ttf', 12)
-        # border
-        shape = [(margin, margin), (MAX_W - margin, MAX_H - margin)]
+
         draw.rectangle(shape, outline="white")
 
+        # draw on top page parent url (actual blog listing page)
         w, h = draw.textsize(instance.get_parent().full_url, font=font_small)
         draw.text(((MAX_W - w) / 2, margin*2), instance.get_parent().full_url, font=font_small, fill=(246, 146, 188))
 
+        # draw post title
         paragraph = textwrap.wrap(instance.title, width=20)
         current_h, pad = 100, 10
         for line in paragraph:
@@ -107,9 +108,9 @@ def create_search_image(sender, instance, *args, **kwargs):
             draw.text(((MAX_W - w) / 2, current_h), line, font=font_big, fill=(255, 255, 255))
             current_h += h + pad
 
+        # save image 
         img_bytes = BytesIO()
         img.save(img_bytes, 'JPEG')
-
         instance.search_image = WagtailImage.objects.create(title=instance.title,
                     file=ImageFile(img_bytes, name=f'METADATA-{instance.slug}.jpg'))
 
