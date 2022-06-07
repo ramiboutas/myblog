@@ -26,7 +26,9 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400'
+    'ACL': 'public-read'
 }
+AWS_LOCATION = f"https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_REGION_NAME}.digitaloceanspaces.com"
 
 AWS_MEDIA_LOCATION = 'media'
 PUBLIC_MEDIA_LOCATION = 'media'
