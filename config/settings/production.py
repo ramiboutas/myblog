@@ -24,10 +24,10 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
 
-AWS_MEDIA_LOCATION = 'myblog'
-PUBLIC_MEDIA_LOCATION = 'myblog'
+AWS_MEDIA_LOCATION = 'media'
+PUBLIC_MEDIA_LOCATION = 'media'
 MEDIA_URL = '%s%s' % (AWS_S3_ENDPOINT_URL, AWS_MEDIA_LOCATION)
-DEFAULT_FILE_STORAGE = 'django_project.storage_backends.MediaStorage'
+DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
 
 
 DATABASES = {
