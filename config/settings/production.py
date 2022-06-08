@@ -2,7 +2,7 @@ import os
 from .base import *
 
 
-DEBUG = True
+DEBUG = False
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
@@ -24,17 +24,15 @@ AWS_DEFAULT_ACL = 'public-read'
 AWS_S3_ENDPOINT_URL = f"https://{AWS_S3_REGION_NAME}.digitaloceanspaces.com"
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-    'ACL': 'public-read'
-}
+
 AWS_LOCATION = f"https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_REGION_NAME}.digitaloceanspaces.com"
 
 AWS_MEDIA_LOCATION = 'media'
 PUBLIC_MEDIA_LOCATION = 'media'
 MEDIA_URL = f'https://{AWS_S3_ENDPOINT_URL}/{PUBLIC_MEDIA_LOCATION}/'
-DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
-
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3ManifestStaticStorage'
 
 DATABASES = {
     'default': {
@@ -57,7 +55,7 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_HSTS_PRELOAD = True
-PREPEND_WWW = True
+# PREPEND_WWW = True
 
 
 # CACHES = {
