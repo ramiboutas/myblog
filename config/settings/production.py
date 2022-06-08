@@ -2,7 +2,7 @@ import os
 from .base import *
 
 
-DEBUG = True
+DEBUG = False
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
@@ -36,7 +36,6 @@ if USE_SPACES:
     STATIC_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/'
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 
-
     # public media settings
     AWS_MEDIA_LOCATION = 'media'
     PUBLIC_MEDIA_LOCATION = 'media'
@@ -45,9 +44,9 @@ if USE_SPACES:
 
 else:
     STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
