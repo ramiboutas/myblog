@@ -62,7 +62,7 @@ def promote_post_instance_in_linkedin(instance):
         "specificContent": {
             "com.linkedin.ugc.ShareContent": {
                 "shareCommentary": {
-                    "text": f'{instance.post_text_for_telegram} \n {instance.full_url} '
+                    "text": f'😀 {instance.post_text_for_telegram} \n {instance.full_url} '
                 },
                 "shareMediaCategory": "NONE"
             }
