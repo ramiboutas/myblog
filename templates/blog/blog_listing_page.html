@@ -6,7 +6,7 @@
 
 
 
-<h1 class="text-center"> {{ self.custom_title }} </h1>
+<h1 class="text-center"> {{ self.title }} </h1>
 
 <h2>Categories</h2>
 <ul>
@@ -19,14 +19,7 @@
   {% for post in posts %}
       <div class="row mb-3">
         <div class="col-sm-4">
-          {% image post.banner_image fill-250x250 as img %}
-          <a href="{{ post.url }}">
-            <img src="{{ img.url }}" alt="{{ img.alt }}">
-          </a>
-        </div>
-        <div class="col-sm-8">
-          <a href="{{ post.url }}">{{ post.custom_title }}</a>
-          {% if post.specific.subtitle %}<p>{{post.specific.subtitle}}</p>{% endif %}
+          <a href="{{ post.url }}">{{post.title}}</a>
         </div>
       </div>
   {% endfor %}
