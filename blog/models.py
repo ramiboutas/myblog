@@ -10,7 +10,7 @@ from django.utils.translation import gettext as _
 
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.core import blocks
-from wagtail.core.models import Page, Orderable
+from wagtail.core.models import Page, Orderable, Locale
 from wagtail.core.fields import StreamField
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.images.edit_handlers import ImageChooserPanel
