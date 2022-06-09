@@ -20,9 +20,7 @@ DATABASES = {
 }
 
 
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, 'static'),
-]
+
 
 # ManifestStaticFilesStorage is recommended in production, to prevent outdated
 # JavaScript / CSS assets being served from cache (e.g. after a Wagtail upgrade).
