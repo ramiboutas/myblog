@@ -27,32 +27,76 @@ def escape_html_for_telegram(text):
     return text
 
 
+def promote_post_instance_in_telegram(instance):
+    post_text = instance.post_text_for_telegram
+    if post_text == instance.title:
+        text = f'{post_text} \n\n<a href="{instance.full_url}">{instance.full_url}</a>'
+    else:
+        text = f'{post_text} \n\n<a href="{instance.full_url}">{instance.title}</a>'
+    parsed_text = escape_html_for_telegram(text)
+    if instance.share_in_matlab_accounts or True: # remove the True !!
+        matlab_accounts = settings.TELEGRAM_ACCOUNTS_FOR_MATLAB
+        api_key = matlab_accounts[instance.locale.language_code]["BOT_API_KEY"]
+        channel = matlab_accounts[instance.locale.language_code]["CHANNEL_NAME"]
+        bot = telegram.Bot(token=api_key)
+        bot.send_message(chat_id=channel, text=parsed_text,
+                        parse_mode=telegram.ParseMode.HTML,
+                        disable_web_page_preview=False)
+
+
+def promote_post_instance_in_linkedin(instance):
+    #scope: w_member_social,r_liteprofile
+    profile_id = settings.LINKEDIN_PROFILE_ID
+    access_token = settings.LINKEDIN_ACCESS_TOKEN
+
+    url = "https://api.linkedin.com/v2/ugcPosts"
+
+    headers = {'Content-Type': 'application/json',
+               'X-Restli-Protocol-Version': '2.0.0',
+               'Authorization': 'Bearer ' + access_token}
+
+
+    post_data = {
+        "author": "urn:li:person:"+profile_id,
+        "lifecycleState": "PUBLISHED",
+        "specificContent": {
+            "com.linkedin.ugc.ShareContent": {
+                "shareCommentary": {
+                    "text": instance.post_text_for_telegram
+                },
+                "shareMediaCategory": "NONE"
+            }
+        },
+        "visibility": {
+            "com.linkedin.ugc.MemberNetworkVisibility": "LOGGED_IN"
+        }
+    }
+
+    response = requests.post(url, headers=headers, json=post_data)
+
+    print(response)
+
+
+
+
+
+
+
+
 def temporal_function_post_in_social_media(instance):
     # include in tasks.py later!
     if instance.promote_in_instagram:
         pass
 
     if instance.promote_in_telegram:
-        post_text = instance.post_text_for_telegram
-        if post_text == instance.title:
-            text = f'{post_text} \n\n<a href="{instance.full_url}">{instance.full_url}</a>'
-        else:
-            text = f'{post_text} \n\n<a href="{instance.full_url}">{instance.title}</a>'
-        parsed_text = escape_html_for_telegram(text)
-        if instance.share_in_matlab_accounts or True: # remove the True !!
-            matlab_accounts = settings.TELEGRAM_ACCOUNTS_FOR_MATLAB
-            api_key = matlab_accounts[instance.locale.language_code]["BOT_API_KEY"]
-            channel = matlab_accounts[instance.locale.language_code]["CHANNEL_NAME"]
-            bot = telegram.Bot(token=api_key)
-            bot.send_message(chat_id=channel, text=parsed_text,
-                            parse_mode=telegram.ParseMode.HTML,
-                            disable_web_page_preview=False)
+        promote_post_instance_in_telegram(instance)
+
 
     if instance.promote_in_facebook:
         pass
 
     if instance.promote_in_linkedin:
-        pass
+        promote_post_instance_in_linkedin(instance)
 
     if instance.promote_in_twitter:
         pass
@@ -108,7 +152,7 @@ def create_search_image(sender, instance, *args, **kwargs):
             draw.text(((MAX_W - w) / 2, current_h), line, font=font_big, fill=(255, 255, 255))
             current_h += h + pad
 
-        # save image 
+        # save image
         img_bytes = BytesIO()
         img.save(img_bytes, 'JPEG')
         instance.search_image = WagtailImage.objects.create(title=instance.title,

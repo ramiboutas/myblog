@@ -205,8 +205,9 @@ RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
 RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
 NOCAPTCHA = True
 
+# Social media promotion
 
-
+#  Telegram
 TELEGRAM_ACCOUNTS_FOR_MATLAB = {
     'es': {
         'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
@@ -222,7 +223,10 @@ TELEGRAM_ACCOUNTS_FOR_MATLAB = {
     },
 }
 
-INSTAGRAM_ACCOUNTS_FOR_MATLAB = {
+
+
+
+TELEGRAM_ACCOUNTS_FOR_EXCEL = {
     'es': {
         'API_PUBLIC': 'whatever ES',
         'USERNAME': 'whatever ES',
@@ -236,6 +240,19 @@ INSTAGRAM_ACCOUNTS_FOR_MATLAB = {
         'USERNAME': 'whatever DE',
     },
 }
+
+# Instagram
+# TODO
+
+
+# Linkedin
+LINKEDIN_CLIENT_ID = os.environ.get("LINKEDIN_CLIENT_ID") # not needed at the moment
+LINKEDIN_CLIENT_SECRET = os.environ.get("LINKEDIN_CLIENT_SECRET") # not needed at the moment
+LINKEDIN_PROFILE_ID = os.environ.get("LINKEDIN_PROFILE_ID")
+LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN")
+
+
+
 
 EXCEL_INSTAGRAM_ACCOUNT_EN = 'whatever'
 EXCEL_INSTAGRAM_ACCOUNT_ES = 'whatever'
