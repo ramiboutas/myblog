@@ -31,6 +31,11 @@ if USE_SPACES:
     DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaRootStorage'
     STATICFILES_STORAGE = 'config.storage_backends.StaticRootStorage'
 
+    AWS_STATIC_LOCATION = 'myblog-static'
+    STATIC_URL = f'https://spaces.ramiboutas.com/{AWS_STATIC_LOCATION}/'
+    AWS_MEDIA_LOCATION = 'myblog-media'
+    MEDIA_URL = f'https://spaces.ramiboutas.com/{AWS_MEDIA_LOCATION}/'
+
 
 else:
     STATIC_URL = '/static/'
