@@ -32,9 +32,10 @@ if USE_SPACES:
     STATICFILES_STORAGE = 'config.storage_backends.StaticRootStorage'
 
     AWS_STATIC_LOCATION = 'myblog-static'
-    STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com/{AWS_STATIC_LOCATION}/'
+    STATIC_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_STATIC_LOCATION}/'
     AWS_MEDIA_LOCATION = 'myblog-media'
-    MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com/{AWS_MEDIA_LOCATION}/'
+    # MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com/{AWS_MEDIA_LOCATION}/' # it worked
+    MEDIA_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_MEDIA_LOCATION}/'
 
 
 else:
