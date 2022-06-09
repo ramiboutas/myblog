@@ -27,7 +27,7 @@ if USE_SPACES:
 
     AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
     AWS_S3_ENDPOINT_URL = 'https://fra1.digitaloceanspaces.com'
-    AWS_S3_CUSTOM_DOMAIN = 'https://spaces.ramiboutas.com'
+    AWS_S3_CUSTOM_DOMAIN = 'spaces.ramiboutas.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400', 'ACL': 'public-read'}
     # AWS_LOCATION = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com'
 
