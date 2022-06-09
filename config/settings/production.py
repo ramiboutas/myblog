@@ -32,6 +32,7 @@ if USE_SPACES:
     # AWS_LOCATION = f'https://{AWS_STORAGE_BUCKET_NAME}.fra1.digitaloceanspaces.com'
 
     AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_SIGNATURE_VERSION = "s3v4"
 
     DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaRootStorage'
     STATICFILES_STORAGE = 'config.storage_backends.StaticRootStorage'
