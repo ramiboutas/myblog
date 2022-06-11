@@ -190,7 +190,8 @@ def create_search_image_and_default_social_media_text(sender, instance, *args, *
         # save image
         img_bytes = BytesIO()
         img.save(img_bytes, 'JPEG')
-        instance.search_image = WagtailImage.objects.create(title=instance.title,
+        # instance.search_image = WagtailImage.objects.create(title=instance.title,
+        instance.search_image = WagtailImage(title=instance.title,
                     file=ImageFile(img_bytes, name=f'METADATA-{instance.slug}.jpg'))
 
     if not instance.post_text_for_instagram and instance.promote_in_instagram:
