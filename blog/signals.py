@@ -111,7 +111,7 @@ def promote_post_instance_in_instagram(instance):
 
 
 @receiver(page_published, sender=BlogPostPage)
-def temporal_function_post_in_social_media(instance):
+def temporal_function_post_in_social_media(sender, instance, *args, **kwargs):
     # include in tasks.py later!
     if instance.promote_in_instagram:
         promote_post_instance_in_instagram(instance)
