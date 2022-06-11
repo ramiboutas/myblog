@@ -187,7 +187,9 @@ def create_search_image(sender, instance, *args, **kwargs):
                     file=ImageFile(img_bytes, name=f'METADATA-{instance.slug}.jpg'))
 
 
-@receiver(page_published, sender=BlogPostPage)
+
+
+@receiver(post_save, sender=BlogPostPage)
 def create_default_social_media_text(sender, instance, *args, **kwargs):
     """
     Default post text for social media is created (populated from instance.title),
