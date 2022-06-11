@@ -34,7 +34,7 @@ def promote_post_instance_in_telegram(instance):
     else:
         text = f'{post_text} \n\n<a href="{instance.full_url}">{instance.title}</a>'
     parsed_text = escape_html_for_telegram(text)
-    if instance.share_in_matlab_accounts or True: # remove the True !!
+    if instance.share_in_matlab_accounts:
         matlab_accounts = settings.TELEGRAM_ACCOUNTS_FOR_MATLAB
         api_key = matlab_accounts[instance.locale.language_code]["BOT_API_KEY"]
         channel = matlab_accounts[instance.locale.language_code]["CHANNEL_NAME"]
@@ -77,7 +77,34 @@ def promote_post_instance_in_linkedin(instance):
     print(response)
 
 
+def promote_post_instance_in_instagram(instance):
+    if instance.share_in_matlab_accounts or True:
+        instagram_accounts = settings.INSTAGRAM_ACCOUNTS_FOR_MATLAB
+        user_id = matlab_accounts[instance.locale.language_code]["USER_ID"]
+        access_token = matlab_accounts[instance.locale.language_code]["ACCESS_TOKEN"]
 
+        post_url = 'https://graph.facebook.com/v14.0/{}/media'.format(user_id)
+
+        payload = {
+            'image_url': instance.search_image.url,
+            'caption': instance.post_text_for_instagram,
+            'access_token': access_token
+            }
+        r = requests.post(post_url, data=payload)
+        print(r.text)
+        result = json.loads(r.text)
+        if 'id' in result:
+            creation_id = result['id']
+            second_url = 'https://graph.facebook.com/v14.0/{}/media_publish'.format(user_id)
+            second_payload = {
+                'creation_id': creation_id,
+                'access_token': access_token
+            }
+            r = requests.post(second_url, data=second_payload)
+            print('--------Just posted to instagram--------')
+            print(r.text)
+        else:
+            print('HOUSTON we have a problem')
 
 
 
@@ -86,7 +113,7 @@ def promote_post_instance_in_linkedin(instance):
 def temporal_function_post_in_social_media(instance):
     # include in tasks.py later!
     if instance.promote_in_instagram:
-        pass
+        promote_post_instance_in_instagram(instance)
 
     if instance.promote_in_telegram:
         promote_post_instance_in_telegram(instance)

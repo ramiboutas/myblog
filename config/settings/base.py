@@ -226,6 +226,7 @@ TELEGRAM_ACCOUNTS_FOR_MATLAB = {
 
 
 
+
 TELEGRAM_ACCOUNTS_FOR_EXCEL = {
     'es': {
         'API_PUBLIC': 'whatever ES',
@@ -244,6 +245,23 @@ TELEGRAM_ACCOUNTS_FOR_EXCEL = {
 # Instagram
 # TODO
 
+INSTAGRAM_ACCOUNTS_FOR_MATLAB = {
+    'es': {
+        'USER_ID': os.environ.get("INSTAGRAM_MATLAB_USER_ID_EN"),
+        'ACCESS_TOKEN': os.environ.get("INSTAGRAM_MATLAB_ACCESS_TOKEN_EN"),
+    },
+    'en': {
+        'USER_ID': os.environ.get("INSTAGRAM_MATLAB_USER_ID_ES"),
+        'ACCESS_TOKEN': os.environ.get("INSTAGRAM_MATLAB_ACCESS_TOKEN_ES"),
+    },
+    'de': {
+        'USER_ID': os.environ.get("INSTAGRAM_MATLAB_USER_ID_DE"),
+        'ACCESS_TOKEN': os.environ.get("INSTAGRAM_MATLAB_ACCESS_TOKEN_DE"),
+    },
+}
+
+
+
 
 # Linkedin
 LINKEDIN_CLIENT_ID = os.environ.get("LINKEDIN_CLIENT_ID") # not needed at the moment
@@ -252,19 +270,6 @@ LINKEDIN_PROFILE_ID = os.environ.get("LINKEDIN_PROFILE_ID")
 LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN")
 
 
-
-
-EXCEL_INSTAGRAM_ACCOUNT_EN = 'whatever'
-EXCEL_INSTAGRAM_ACCOUNT_ES = 'whatever'
-EXCEL_INSTAGRAM_ACCOUNT_DE = 'whatever'
-
-WEB_DEV_INSTAGRAM_ACCOUNT_EN = 'whatever'
-WEB_DEV_INSTAGRAM_ACCOUNT_ES = 'whatever'
-WEB_DEV_INSTAGRAM_ACCOUNT_DE = 'whatever'
-
-MATLAB_INSTAGRAM_ACCOUNT_EN = 'whatever'
-MATLAB_INSTAGRAM_ACCOUNT_ES = 'whatever'
-MATLAB_INSTAGRAM_ACCOUNT_DE = 'whatever'
 
 # META DATA SETTINGS
 

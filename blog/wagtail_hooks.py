@@ -10,6 +10,13 @@ from wagtail.core import hooks
 def register_emojipicker_feature(features):
     """Creates a button in our richtext editor which pops a menu to pick emojis."""
     pass
+    # Lack of documentation / knowledge for the moment
+    # Implement in the future. Here some helpful links:
+    # https://github.com/springload/draftail/blob/fc69997ff4788907472e1324232487a18840777a/examples/plugins.story.js
+    # https://docs.wagtail.org/en/v3.0/extending/extending_draftail.html#creating-new-entities
+    # https://www.cssscript.com/emoji-picker-button/
+
+
 
 @hooks.register("register_rich_text_features")
 def register_code_styling(features):
