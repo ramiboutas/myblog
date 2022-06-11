@@ -86,7 +86,7 @@ def promote_post_instance_in_instagram(instance):
         post_url = 'https://graph.facebook.com/v14.0/{}/media'.format(user_id)
 
         payload = {
-            'image_url': instance.search_image.url,
+            'image_url': instance.search_image.full_url,
             'caption': instance.post_text_for_instagram,
             'access_token': access_token
             }
