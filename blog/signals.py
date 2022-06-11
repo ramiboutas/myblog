@@ -92,7 +92,7 @@ def promote_post_instance_in_instagram(instance):
             'access_token': access_token
             }
         r = requests.post(post_url, data=payload)
-        print(r.text)
+        print(r.text, flush=True)
         result = json.loads(r.text)
         if 'id' in result:
             creation_id = result['id']
@@ -102,10 +102,10 @@ def promote_post_instance_in_instagram(instance):
                 'access_token': access_token
             }
             r = requests.post(second_url, data=second_payload)
-            print('--------Just posted to instagram--------')
-            print(r.text)
+            print('--------Just posted to instagram--------', flush=True)
+            print(r.text, flush=True)
         else:
-            print('HOUSTON we have a problem')
+            print('HOUSTON we have a problem', flush=True)
 
 
 
