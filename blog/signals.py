@@ -189,7 +189,7 @@ def create_search_image(sender, instance, *args, **kwargs):
 
 
 
-@receiver(post_save, sender=BlogPostPage)
+@receiver(pre_save, sender=BlogPostPage)
 def create_default_social_media_text(sender, instance, *args, **kwargs):
     """
     Default post text for social media is created (populated from instance.title),
