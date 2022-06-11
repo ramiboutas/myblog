@@ -62,7 +62,6 @@ class BlogPostPage(MetadataPageMixin, Page):
     show_in_listings = models.BooleanField(default=True)
 
     # promoting in social media
-    promoting_time = models.DateTimeField(default=one_hour_from_now, null=True)
     share_in_webdev_accounts = models.BooleanField(default=False, null=True, blank=True)
     share_in_matlab_accounts = models.BooleanField(default=False, null=True, blank=True)
     share_in_excel_accounts = models.BooleanField(default=False, null=True, blank=True)
@@ -101,11 +100,10 @@ class BlogPostPage(MetadataPageMixin, Page):
 
     promote_panels = Page.promote_panels + [
         MultiFieldPanel([
-            FieldPanel('promoting_time', heading=_('When to post in social media')),
             FieldPanel('share_in_webdev_accounts', heading=_('Share in WEBDEV social media accounts')),
             FieldPanel('share_in_matlab_accounts', heading=_('Share in MATLAB social media accounts')),
             FieldPanel('share_in_excel_accounts', heading=_('Share in EXCEL-VBA  social media accounts')),
-        ], heading="Sharing, when and where"),
+        ], heading="Socia media accounts"),
         MultiFieldPanel([
             FieldPanel('promote_in_instagram'),
             FieldPanel('post_text_for_instagram'),

@@ -7,6 +7,11 @@ from wagtail.core import hooks
 
 
 @hooks.register("register_rich_text_features")
+def register_emojipicker_feature(features):
+    """Creates a button in our richtext editor which pops a menu to pick emojis."""
+    pass
+
+@hooks.register("register_rich_text_features")
 def register_code_styling(features):
     """Add the <code> to the richtext editor and page."""
 
