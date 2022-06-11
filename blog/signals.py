@@ -80,8 +80,8 @@ def promote_post_instance_in_linkedin(instance):
 def promote_post_instance_in_instagram(instance):
     if instance.share_in_matlab_accounts or True:
         instagram_accounts = settings.INSTAGRAM_ACCOUNTS_FOR_MATLAB
-        user_id = matlab_accounts[instance.locale.language_code]["USER_ID"]
-        access_token = matlab_accounts[instance.locale.language_code]["ACCESS_TOKEN"]
+        user_id = instagram_accounts[instance.locale.language_code]["USER_ID"]
+        access_token = instagram_accounts[instance.locale.language_code]["ACCESS_TOKEN"]
 
         post_url = 'https://graph.facebook.com/v14.0/{}/media'.format(user_id)
 
