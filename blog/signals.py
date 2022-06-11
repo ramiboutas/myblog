@@ -113,12 +113,28 @@ def promote_post_instance_in_instagram(instance):
 @receiver(page_published, sender=BlogPostPage)
 def temporal_function_post_in_social_media(sender, instance, *args, **kwargs):
     # include in tasks.py later!
+    # Save check - post text
+    if not instance.post_text_for_instagram and instance.promote_in_instagram:
+        instance.post_text_for_instagram = instance.title
+
+    if not instance.post_text_for_telegram and instance.promote_in_telegram:
+        instance.post_text_for_telegram = instance.title
+
+    if not instance.post_text_for_facebook and instance.promote_in_facebook:
+        instance.post_text_for_facebook = instance.title
+
+    if not instance.post_text_for_linkedin and instance.promote_in_linkedin:
+        instance.post_text_for_linkedin = instance.title
+
+    if not instance.post_text_for_twitter and instance.promote_in_twitter:
+        instance.post_text_for_twitter = instance.title
+
+    # promotion means
     if instance.promote_in_instagram:
         promote_post_instance_in_instagram(instance)
 
     if instance.promote_in_telegram:
         promote_post_instance_in_telegram(instance)
-
 
     if instance.promote_in_facebook:
         pass
@@ -147,11 +163,9 @@ def temporal_function_post_in_social_media(sender, instance, *args, **kwargs):
 
 
 @receiver(pre_save, sender=BlogPostPage)
-def create_search_image_and_default_social_media_text(sender, instance, *args, **kwargs):
+def create_search_image(sender, instance, *args, **kwargs):
     """
     Creates a search image if is not created and also:
-    Default post text for social media is created (populated from instance.title),
-    if no text is provided and if the editor wants to promote the page.
     """
     # move to tasks.py later
     if not instance.search_image:
@@ -190,24 +204,22 @@ def create_search_image_and_default_social_media_text(sender, instance, *args, *
         # save image
         img_bytes = BytesIO()
         img.save(img_bytes, 'JPEG')
-        # instance.search_image = WagtailImage.objects.create(title=instance.title,
-        instance.search_image = WagtailImage(title=instance.title,
+        instance.search_image = WagtailImage.objects.create(title=instance.title,
                     file=ImageFile(img_bytes, name=f'METADATA-{instance.slug}.jpg'))
-        instance.save(commit=False)
 
-    if not instance.post_text_for_instagram and instance.promote_in_instagram:
-        instance.post_text_for_instagram = instance.title
-
-    if not instance.post_text_for_telegram and instance.promote_in_telegram:
-        instance.post_text_for_telegram = instance.title
-
-    if not instance.post_text_for_facebook and instance.promote_in_facebook:
-        instance.post_text_for_facebook = instance.title
-
-    if not instance.post_text_for_linkedin and instance.promote_in_linkedin:
-        instance.post_text_for_linkedin = instance.title
-
-    if not instance.post_text_for_twitter and instance.promote_in_twitter:
-        instance.post_text_for_twitter = instance.title
-
-    instance.save()
+    # if not instance.post_text_for_instagram and instance.promote_in_instagram:
+    #     instance.post_text_for_instagram = instance.title
+    #
+    # if not instance.post_text_for_telegram and instance.promote_in_telegram:
+    #     instance.post_text_for_telegram = instance.title
+    #
+    # if not instance.post_text_for_facebook and instance.promote_in_facebook:
+    #     instance.post_text_for_facebook = instance.title
+    #
+    # if not instance.post_text_for_linkedin and instance.promote_in_linkedin:
+    #     instance.post_text_for_linkedin = instance.title
+    #
+    # if not instance.post_text_for_twitter and instance.promote_in_twitter:
+    #     instance.post_text_for_twitter = instance.title
+    #
+    # instance.save()
