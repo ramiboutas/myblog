@@ -110,7 +110,7 @@ def promote_post_instance_in_instagram(instance):
 
 
 
-
+@receiver(page_published, sender=BlogPostPage)
 def temporal_function_post_in_social_media(instance):
     # include in tasks.py later!
     if instance.promote_in_instagram:
@@ -144,8 +144,15 @@ def temporal_function_post_in_social_media(instance):
 # if "page" is a Page instance, we can get its language code:
 # page.locale.language_code
 
+
+
 @receiver(pre_save, sender=BlogPostPage)
-def create_search_image(sender, instance, *args, **kwargs):
+def create_search_image_and_default_social_media_text(sender, instance, *args, **kwargs):
+    """
+    Creates a search image if is not created and also:
+    Default post text for social media is created (populated from instance.title),
+    if no text is provided and if the editor wants to promote the page.
+    """
     # move to tasks.py later
     if not instance.search_image:
         # geometry definitions
@@ -186,15 +193,6 @@ def create_search_image(sender, instance, *args, **kwargs):
         instance.search_image = WagtailImage.objects.create(title=instance.title,
                     file=ImageFile(img_bytes, name=f'METADATA-{instance.slug}.jpg'))
 
-
-
-
-@receiver(pre_save, sender=BlogPostPage)
-def create_default_social_media_text(sender, instance, *args, **kwargs):
-    """
-    Default post text for social media is created (populated from instance.title),
-    if no text is provided and if the editor wants to promote the page.
-    """
     if not instance.post_text_for_instagram and instance.promote_in_instagram:
         instance.post_text_for_instagram = instance.title
 
@@ -211,4 +209,3 @@ def create_default_social_media_text(sender, instance, *args, **kwargs):
         instance.post_text_for_twitter = instance.title
 
     instance.save()
-    temporal_function_post_in_social_media(instance)
