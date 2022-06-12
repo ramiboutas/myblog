@@ -152,5 +152,5 @@ def promote_post_instance_in_twitter(self, instance):
 
     api = tweepy.API(auth, wait_on_rate_limit=True)
 
-    status = f"{instance.post_text_for_twitter}\n\n 👉 {instance.full_url}"
+    status = f"{instance.post_text_for_twitter}\n {instance.full_url}"
     api.update_status(status=status)
