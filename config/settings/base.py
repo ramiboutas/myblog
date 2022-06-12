@@ -200,6 +200,10 @@ WAGTAILSEARCH_BACKENDS = {
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'https://www.ramiboutas.com'
 
+# celery
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/3'
+CELERY_RESULT_BACKEND = 'django-db'
+
 # Recaptcha
 RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
 RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
@@ -224,39 +228,33 @@ TELEGRAM_ACCOUNTS_FOR_MATLAB = {
 }
 
 
-
-
-
 TELEGRAM_ACCOUNTS_FOR_EXCEL = {
     'es': {
-        'API_PUBLIC': 'whatever ES',
-        'USERNAME': 'whatever ES',
+        'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
+        'CHANNEL_NAME': '@excelvbaes',
     },
     'en': {
-        'API_PUBLIC': 'whatever EN',
-        'USERNAME': 'whatever EN',
+        'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
+        'CHANNEL_NAME': '@excelvbaen',
     },
     'de': {
-        'API_PUBLIC': 'whatever DE',
-        'USERNAME': 'whatever DE',
+        'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
+        'CHANNEL_NAME': '@excelvbade',
     },
 }
 
-# Instagram
-# TODO
-
-INSTAGRAM_ACCOUNTS_FOR_MATLAB = {
+TELEGRAM_ACCOUNTS_FOR_WEBDEV = {
     'es': {
-        'USER_ID': os.environ.get("INSTAGRAM_MATLAB_USER_ID_EN"),
-        'ACCESS_TOKEN': os.environ.get("INSTAGRAM_MATLAB_ACCESS_TOKEN_EN"),
+        'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
+        'CHANNEL_NAME': '@desarr0lloweb',
     },
     'en': {
-        'USER_ID': os.environ.get("INSTAGRAM_MATLAB_USER_ID_ES"),
-        'ACCESS_TOKEN': os.environ.get("INSTAGRAM_MATLAB_ACCESS_TOKEN_ES"),
+        'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
+        'CHANNEL_NAME': '@webdeven',
     },
     'de': {
-        'USER_ID': os.environ.get("INSTAGRAM_MATLAB_USER_ID_DE"),
-        'ACCESS_TOKEN': os.environ.get("INSTAGRAM_MATLAB_ACCESS_TOKEN_DE"),
+        'BOT_API_KEY': os.environ.get("TELEGRAM_BOT_API_KEY"),
+        'CHANNEL_NAME': '@web_entwicklung',
     },
 }
 
@@ -268,6 +266,19 @@ LINKEDIN_CLIENT_ID = os.environ.get("LINKEDIN_CLIENT_ID") # not needed at the mo
 LINKEDIN_CLIENT_SECRET = os.environ.get("LINKEDIN_CLIENT_SECRET") # not needed at the moment
 LINKEDIN_PROFILE_ID = os.environ.get("LINKEDIN_PROFILE_ID")
 LINKEDIN_ACCESS_TOKEN = os.environ.get("LINKEDIN_ACCESS_TOKEN")
+
+# Twitter
+TWITTER_CLIENT_ID = os.environ.get("TWITTER_CLIENT_ID")
+TWITTER_CLIENT_SECRET = os.environ.get("TWITTER_CLIENT_SECRET")
+
+TWITTER_API_KEY = os.environ.get("TWITTER_API_KEY")
+TWITTER_API_KEY_SECRET = os.environ.get("TWITTER_API_KEY_SECRET")
+
+TWITTER_ACCESS_TOKEN = os.environ.get("TWITTER_ACCESS_TOKEN")
+TWITTER_ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
+
+TWITTER_BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
+
 
 
 

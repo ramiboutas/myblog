@@ -66,15 +66,11 @@ class BlogPostPage(MetadataPageMixin, Page):
     share_in_matlab_accounts = models.BooleanField(default=False, null=True, blank=True)
     share_in_excel_accounts = models.BooleanField(default=False, null=True, blank=True)
 
-    promote_in_instagram = models.BooleanField(default=True, null=True, blank=True)
     promote_in_telegram = models.BooleanField(default=True, null=True, blank=True)
-    promote_in_facebook = models.BooleanField(default=True, null=True, blank=True)
     promote_in_linkedin = models.BooleanField(default=True, null=True, blank=True)
     promote_in_twitter = models.BooleanField(default=True, null=True, blank=True)
 
-    post_text_for_instagram = models.TextField(max_length=2000, null=True, blank=True)
     post_text_for_telegram = models.TextField(max_length=2000, null=True, blank=True)
-    post_text_for_facebook = models.TextField(max_length=2000, null=True, blank=True)
     post_text_for_linkedin = models.TextField(max_length=1300, null=True, blank=True)
     post_text_for_twitter = models.TextField(max_length=140, null=True, blank=True)
 
@@ -105,14 +101,6 @@ class BlogPostPage(MetadataPageMixin, Page):
             FieldPanel('share_in_excel_accounts', heading=_('Share in EXCEL-VBA  social media accounts')),
         ], heading="Socia media accounts"),
         MultiFieldPanel([
-            FieldPanel('promote_in_instagram'),
-            FieldPanel('post_text_for_instagram'),
-        ], heading="Instagram"),
-        MultiFieldPanel([
-            FieldPanel('promote_in_facebook'),
-            FieldPanel('post_text_for_facebook'),
-        ], heading="Facebook"),
-        MultiFieldPanel([
             FieldPanel('promote_in_twitter'),
             FieldPanel('post_text_for_twitter'),
         ], heading="Twitter"),
@@ -127,11 +115,9 @@ class BlogPostPage(MetadataPageMixin, Page):
     ]
 
 
-
-
     settings_panels = Page.settings_panels + [
-        FieldPanel('view_count', widget=forms.NumberInput(attrs={'disabled': 'disabled', 'readonly': 'readonly'})),
-        FieldPanel('show_in_listings')
+            FieldPanel('view_count', widget=forms.NumberInput(attrs={'disabled': 'disabled', 'readonly': 'readonly'})),
+            FieldPanel('show_in_listings')
         ]
 
 

@@ -16,6 +16,8 @@ INSTALLED_APPS += [
     'storages',
 ]
 
+
+
 # Storage
 
 USE_SPACES = os.environ.get('USE_SPACES') == '1'
