@@ -5,7 +5,7 @@ from django.conf import settings
 import dotenv
 
 dotenv.read_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.production')
 
 app = Celery('config')
 app.config_from_object(settings, namespace='CELERY')
