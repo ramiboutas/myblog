@@ -28,6 +28,7 @@ def escape_html_for_telegram(text):
 @shared_task(bind=True)
 def create_pdf(self, instance):
     """
+    /// TO DO ///
     Creates pdf file
     """
     pass

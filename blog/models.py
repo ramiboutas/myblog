@@ -60,8 +60,9 @@ class BlogPostPage(MetadataPageMixin, Page):
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     view_count = models.PositiveBigIntegerField(default=0, blank=True)
     show_in_listings = models.BooleanField(default=True)
-    create_pdf = models.BooleanField(default=True)
-    # pdf = WagtailDocument
+    create_pdf = models.BooleanField(default=False) 
+    pdf = models.ForeignKey('wagtaildocs.Document', null=True, blank=True,
+                            on_delete=models.SET_NULL, related_name='+')
 
     # promoting in social media
     share_in_webdev_accounts = models.BooleanField(default=False, null=True, blank=True)

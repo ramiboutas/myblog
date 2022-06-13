@@ -5,11 +5,18 @@
 
 {% block content %}
 
-<div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
-  <div class="col-md-6 px-0">
-    <h1 class="display-4 fst-italic">{{ self.title }}</h1>
+
+<header class="p-4 p-md-5 mb-4 text-light rounded bg-secondary">
+  <div class="col px-0">
+    <h1 class="display-3 text-center my-5 animate__animated animate__backInUp">{{ self.title }}</h1>
+    <div class="row">
+      <p class="offset-md-3 col-md-6 text-center my-3 animate__animated animate__slideInRight">
+        {{ self.sub_title }}
+      </p>
+
+    </div>
   </div>
-</div>
+</header>
 
 
 <div class="row g-5">
@@ -17,10 +24,13 @@
     <h2 class="pb-4 mb-4 fst-italic border-bottom">{% trans "Last posts" %}</h2>
     {% for post in recent_posts %}
       <article class="blog-post">
-
         <h3 class="blog-post-title"><a href="{{ post.url }}">{{ post.title }}</a></h3>
-        <p class="blog-post-meta">{{ post.first_published_at }} by <a href="#">{{ post.owner.first_name }}</a></p>
-        <p> @description </p>
+        <div class="row">
+          <p class="col-2 blog-post-meta"><i class="bi bi-calendar-check"></i> {{ post.first_published_at | date:"d N Y" }}</p>
+          {% if post.search_description %}
+            <small class="col-10 blog-post-meta" ><i class="bi bi-file-earmark-richtext"></i> {{ post.search_description }} </small>
+          {% endif %}
+        </div>
       </article>
     {% endfor %}
   </div>

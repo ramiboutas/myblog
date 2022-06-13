@@ -12,24 +12,22 @@
   <div class="col px-0">
     <h1 class="display-2 text-center my-5 animate__animated animate__backInUp">{{ self.title }}</h1>
     <div class="row">
-      <p class="col-6 lead my-3 animate__animated animate__slideInRight animate__delay-1s">{{ self.first_published_at | date:"d N Y" }}</p>
+      <p class="col-6 lead my-3 animate__animated animate__slideInRight animate__delay-1s">
+        {{ self.first_published_at | date:"d N Y" }}
+      </p>
       <p class="col-6 text-end animate__animated animate__slideInLeft animate__delay-1s">
-        <!--
-        <img src="{{ self.owner.wagtail_userprofile.avatar.url }}"
-          alt="mdo"  class="rounded-circle">
--->
-          {% if self.owner.wagtail_userprofile.avatar.url %}
-            <img class="avatar avatar-32 bg-light rounded-circle text-white"
-              width="32" height="32" src="{{self.owner.wagtail_userprofile.avatar.url}}">
-          {% else %}
-            <i class="avatar avatar-32 bi bi-person-circle"></i>
-          {% endif %}
+        {% if self.owner.wagtail_userprofile.avatar.url %}
+          <img class="avatar avatar-32 bg-light rounded-circle text-white"
+            width="32" height="32" src="{{self.owner.wagtail_userprofile.avatar.url}}">
+        {% else %}
+          <i class="avatar avatar-32 bi bi-person-circle"></i>
+        {% endif %}
 
-          {% if self.owner.first_name %}
-            {{ self.owner.first_name }} {{ self.owner.last_name }}
-          {% else %}
-            {{ self.owner.username }}
-          {% endif %}
+        {% if self.owner.first_name %}
+          {{ self.owner.first_name }} {{ self.owner.last_name }}
+        {% else %}
+          {{ self.owner.username }}
+        {% endif %}
       </p>
     </div>
   </div>

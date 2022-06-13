@@ -12,8 +12,8 @@ class HomePage(Page):
     max_count = 1
     subpage_types = ['blog.BlogListingPage', 'contact.ContactPage', 'flex.FlexPage']
     parent_subpage_types = ['wagtailcore.Page']
+    sub_title = models.CharField(max_length=250, blank=False, null=True)
 
-    # banner_title = models.CharField(max_length=100, blank=False, null=True)
     # banner_subtitle = RichTextField(features=['h2', 'h3', 'bold', 'italic', 'link'], blank=False, null=True)
     # banner_image = models.ForeignKey('wagtailimages.Image', null=True, blank=False, on_delete=models.SET_NULL, related_name='+')
     # banner_cta = models.ForeignKey('wagtailcore.Page', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
@@ -27,12 +27,17 @@ class HomePage(Page):
     #     ])
     # ]
 
-    edit_handler = TabbedInterface([
-        ObjectList(Page.content_panels, heading='Content'),
-        ObjectList(Page.promote_panels, heading='Promo stuff'),
-        ObjectList(Page.settings_panels, heading='Settings stuff'),
-        # ObjectList(banner_panels, heading='Banners'),
-        ])
+    content_panels = Page.content_panels + [
+        FieldPanel('sub_title', heading="Subtitle"),
+    ]
+    promote_panels = Page.promote_panels
+    settings_panels = Page.settings_panels
+    # edit_handler = TabbedInterface([
+    #     ObjectList(Page.content_panels, heading='Content'),
+    #     ObjectList(Page.promote_panels, heading='Promo stuff'),
+    #     ObjectList(Page.settings_panels, heading='Settings stuff'),
+    #     # ObjectList(banner_panels, heading='Banners'),
+    #     ])
 
     def get_context(self, request, *args, **kwargs):
         """ Adding custom stuff to our context """
