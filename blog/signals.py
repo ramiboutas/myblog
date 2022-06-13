@@ -1,12 +1,10 @@
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
-
 from wagtail.signals import page_published
 
-
 from .models import BlogPostPage
-from .tasks import (create_search_image, promote_post_instance_in_telegram,
+from .tasks import (create_search_image, create_pdf, promote_post_instance_in_telegram,
                 promote_post_instance_in_linkedin, promote_post_instance_in_twitter)
 
 
@@ -41,3 +39,11 @@ def check_search_image(sender, instance, *args, **kwargs):
     """
     if not instance.search_image:
         create_search_image(instance)
+
+@receiver(pre_save, sender=BlogPostPage)
+def check_pdf_creation(sender, instance, *args, **kwargs):
+    """
+    Checks if the pdf needs to be created or not.
+    """
+    if instance.create_pdf:
+        create_pdf(instance)

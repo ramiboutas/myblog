@@ -25,11 +25,18 @@ def escape_html_for_telegram(text):
     text.replace("&", "&amp;")
     return text
 
+@shared_task(bind=True)
+def create_pdf(self, instance):
+    """
+    Creates pdf file
+    """
+    pass
+
 
 @shared_task(bind=True)
 def create_search_image(self, instance):
     """
-    Creates a search image if is not created and also:
+    Creates a search image with a QR code and page title
     """
     # geometry definitions
     MAX_W, MAX_H = 500, 500

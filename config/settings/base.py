@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'wagtailmarkdown',
     'wagtailcodeblock',
     'wagtailmetadata',
+    'django_tex',
 ]
 
 SITE_ID = 1
@@ -102,6 +103,15 @@ TEMPLATES = [
                 'blog.context_processors.categories',
             ],
         },
+    },
+    {
+        'NAME': 'tex',
+        'BACKEND': 'django_tex.engine.TeXEngine',
+        'DIRS': os.path.join(BASE_DIR, 'templates'),
+        'APP_DIRS': False,
+        'OPTIONS': {
+            'environment': 'config.jinja2.environment',
+        }
     },
 ]
 

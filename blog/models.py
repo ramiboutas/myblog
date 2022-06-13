@@ -60,6 +60,8 @@ class BlogPostPage(MetadataPageMixin, Page):
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     view_count = models.PositiveBigIntegerField(default=0, blank=True)
     show_in_listings = models.BooleanField(default=True)
+    create_pdf = models.BooleanField(default=True)
+    # pdf = WagtailDocument
 
     # promoting in social media
     share_in_webdev_accounts = models.BooleanField(default=False, null=True, blank=True)
@@ -114,12 +116,11 @@ class BlogPostPage(MetadataPageMixin, Page):
         ], heading="Linkedin"),
     ]
 
-
     settings_panels = Page.settings_panels + [
             FieldPanel('view_count', widget=forms.NumberInput(attrs={'disabled': 'disabled', 'readonly': 'readonly'})),
-            FieldPanel('show_in_listings')
+            FieldPanel('show_in_listings'),
+            FieldPanel('create_pdf'),
         ]
-
 
     def serve(self, request):
         self.view_count += 1

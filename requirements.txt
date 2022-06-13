@@ -32,6 +32,7 @@ django-recaptcha==3.0.0
 django-redis==5.2.0
 django-storages==1.12.3
 django-taggit==2.1.0
+django-tex==1.1.10
 django-treebeard==4.5.1
 djangorestframework==3.13.1
 draftjs-exporter==2.1.7
@@ -41,10 +42,12 @@ hiredis==2.0.0
 html5lib==1.1
 idna==3.3
 importlib-metadata==4.11.4
+Jinja2==3.1.2
 jmespath==1.0.0
 kombu==5.2.4
 l18n==2021.3
 Markdown==3.3.7
+MarkupSafe==2.1.1
 oauthlib==3.2.0
 openpyxl==3.0.10
 packaging==21.3
@@ -82,6 +85,7 @@ wagtail-django-recaptcha==1.0
 wagtail-localize==1.2
 wagtail-markdown==0.8.0
 wagtail-metadata==4.0.0
+wagtail-pdf-view==0.2.1
 wagtailcodeblock==1.28.0.0
 wcwidth==0.2.5
 webencodings==0.5.1
