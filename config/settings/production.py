@@ -9,13 +9,16 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 ALLOWED_HOSTS = ['ramiboutas.com', 'www.ramiboutas.com', '207.154.205.99', 'localhost', '127.0.0.1']
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Email Backend
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+
 INTERNAL_IPS = ('127.0.0.1')
 
 INSTALLED_APPS += [
     'storages',
 ]
-
 
 
 # Storage

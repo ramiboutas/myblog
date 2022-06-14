@@ -60,7 +60,7 @@ class BlogPostPage(MetadataPageMixin, Page):
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     view_count = models.PositiveBigIntegerField(default=0, blank=True)
     show_in_listings = models.BooleanField(default=True)
-    create_pdf = models.BooleanField(default=False) 
+    create_pdf = models.BooleanField(default=False)
     pdf = models.ForeignKey('wagtaildocs.Document', null=True, blank=True,
                             on_delete=models.SET_NULL, related_name='+')
 
@@ -69,9 +69,9 @@ class BlogPostPage(MetadataPageMixin, Page):
     share_in_matlab_accounts = models.BooleanField(default=False, null=True, blank=True)
     share_in_excel_accounts = models.BooleanField(default=False, null=True, blank=True)
 
-    promote_in_telegram = models.BooleanField(default=True, null=True, blank=True)
-    promote_in_linkedin = models.BooleanField(default=True, null=True, blank=True)
-    promote_in_twitter = models.BooleanField(default=True, null=True, blank=True)
+    promote_in_telegram = models.BooleanField(default=False, null=True, blank=True)
+    promote_in_linkedin = models.BooleanField(default=False, null=True, blank=True)
+    promote_in_twitter = models.BooleanField(default=False, null=True, blank=True)
 
     post_text_for_telegram = models.TextField(max_length=2000, null=True, blank=True)
     post_text_for_linkedin = models.TextField(max_length=1300, null=True, blank=True)
