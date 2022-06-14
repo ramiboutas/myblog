@@ -10,15 +10,16 @@ from io import BytesIO
 from PIL import Image as PillowImage
 from PIL import ImageDraw as PillowImageDraw
 from PIL import ImageFont as PillowImageFont
+from celery import shared_task
 
-from django.core.mail import send_mail
+
 from django.core.files.images import ImageFile
 from django.conf import settings
 
 from wagtail.images import get_image_model
 WagtailImage = get_image_model()
 
-from celery import shared_task
+from utils.management import send_mail_to_admin
 
 def escape_html_for_telegram(text):
     text.replace("<", "&lt;")
@@ -77,16 +78,11 @@ def create_search_image(self, instance):
         img_bytes = BytesIO()
         img.save(img_bytes, 'JPEG')
         instance.search_image = WagtailImage.objects.create(title=instance.title,
-                    file=ImageFile(img_bytes, name=f'METADATA-{instance.slug}.jpg'))
+                    file=ImageFile(img_bytes, name=f'search-image-{instance.slug}.jpg'))
     except Exception as e:
-        send_mail(
-                'www.ramiboutas.com | image_search failed',
-                f' - Blog post: {instance.title} \n - Link: {instance.full_url} \n - Exception: {e}',
-                settings.EMAIL_HOST_USER,
-                [settings.ADMIN_EMAIL_FOR_NOTIFICATIONS],
-                fail_silently=False,
-            )
-
+        extra_subject = 'image_search creation FAILED'
+        body_text = f'Exception occurred: {instance.full_url} \n {e}'
+        send_mail_to_admin(extra_subject=extra_subject, body_text=body_text)
 
 
 
@@ -124,14 +120,11 @@ def promote_post_instance_in_telegram(self, instance):
             bot = telegram.Bot(token=api_key)
             bot.send_message(chat_id=channel, text=parsed_text, parse_mode=telegram.ParseMode.HTML,
                             disable_web_page_preview=False)
+
     except Exception as e:
-        send_mail(
-                'www.ramiboutas.com | promotion in Telegram failed',
-                f' - Blog post: {instance.title} \n - Link: {instance.full_url} \n - Exception: {e}',
-                settings.EMAIL_HOST_USER,
-                [settings.ADMIN_EMAIL_FOR_NOTIFICATIONS],
-                fail_silently=False,
-            )
+        extra_subject = 'Telegram promotion FAILED'
+        body_text = f'Exception occurred: {instance.full_url} \n {e}'
+        send_mail_to_admin(extra_subject=extra_subject, body_text=body_text)
 
 
 @shared_task(bind=True)
@@ -164,23 +157,15 @@ def promote_post_instance_in_linkedin(self, instance):
         }
 
         response = requests.post(url, headers=headers, json=post_data)
-        if not response.status_code == 200:
-            send_mail(
-                    'www.ramiboutas.com | promotion in Linkedin failed',
-                    f' - Blog post: {instance.title} \n - Link: {instance.full_url} \n - Linkedin response: {response}',
-                    settings.EMAIL_HOST_USER,
-                    [settings.ADMIN_EMAIL_FOR_NOTIFICATIONS],
-                    fail_silently=False,
-                )
+        if not response.status_code == 201:
+            extra_subject = 'Linkedin promotion FAILED'
+            body_text = f'Response is not 201: {instance.full_url} \n {response}'
+            send_mail_to_admin(extra_subject=extra_subject, body_text=body_text)
 
     except Exception as e:
-        send_mail(
-                'www.ramiboutas.com | promotion in Linkedin failed',
-                f' - Blog post: {instance.title} \n - Link: {instance.full_url} \n - Exception: {e}',
-                settings.EMAIL_HOST_USER,
-                [settings.ADMIN_EMAIL_FOR_NOTIFICATIONS],
-                fail_silently=False,
-            )
+        extra_subject = 'Linkedin promotion FAILED'
+        body_text = f'Exception occurred: {instance.full_url} \n {e}'
+        send_mail_to_admin(extra_subject=extra_subject, body_text=body_text)
 
 
 @shared_task(bind=True)
@@ -202,10 +187,6 @@ def promote_post_instance_in_twitter(self, instance):
         api.update_status(status=status)
 
     except Exception as e:
-        send_mail(
-                'www.ramiboutas.com | promotion in Twitter failed',
-                f' - Blog post: {instance.title} \n - Link: {instance.full_url} \n - Exception: {e}',
-                settings.EMAIL_HOST_USER,
-                [settings.ADMIN_EMAIL_FOR_NOTIFICATIONS],
-                fail_silently=False,
-            )
+        extra_subject = 'Twitter promotion FAILED'
+        body_text = f'{instance.full_url} \n {e}'
+        send_mail_to_admin(extra_subject=extra_subject, body_text=body_text)
