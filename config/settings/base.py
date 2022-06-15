@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
 
+    'analytical',
     'captcha',
     'wagtailcaptcha',
     'wagtailmarkdown',
@@ -289,6 +290,9 @@ TWITTER_ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCESS_TOKEN_SECRET")
 
 TWITTER_BEARER_TOKEN = os.environ.get("TWITTER_BEARER_TOKEN")
 
+
+# Google analytics
+GOOGLE_ANALYTICS_GTAG_PROPERTY_ID = 'G-WH1GBQYLVS'
 
 # Email settings
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
