@@ -44,6 +44,9 @@ class HomePage(Page):
         context = super().get_context(request, *args, **kwargs)
         recent_posts = BlogPostPage.objects.live().filter(
                     locale=Locale.get_active(), show_in_listings=True).order_by('-first_published_at')[:10]
+        popular_posts = BlogPostPage.objects.live().filter(
+                    locale=Locale.get_active(), show_in_listings=True).order_by('-view_count')[:5]
         context['recent_posts'] = recent_posts
+        context['popular_posts'] = popular_posts
         context['categories'] = BlogCategory.objects.all()
         return context

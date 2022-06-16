@@ -347,24 +347,15 @@ WAGTAIL_CODE_BLOCK_LINE_NUMBERS = True
 WAGTAIL_CODE_BLOCK_COPY_TO_CLIPBOARD = True
 
 WAGTAIL_CODE_BLOCK_LANGUAGES = (
-    ('arduino', 'Arduino'),
-    ('autoit', 'AutoIt'),
     ('bash', 'Bash + Shell'),
-    ('batch', 'Batch'),
     ('css', 'CSS'),
-    ('css-extras', 'CSS Extras'),
     ('django', 'Django/Jinja2'),
-    ('git', 'Git'),
     ('javascript', 'JavaScript'),
-    ('js-extras', 'JS Extras'),
-    ('js-templates', 'JS Templates'),
     ('json', 'JSON'),
     ('latex', 'LaTeX'),
     ('lua', 'Lua'),
     ('makefile', 'Makefile'),
     ('markdown', 'Markdown'),
-    ('markup', 'Markup + HTML + XML + SVG + MathML'),
-    ('markup-templating', 'Markup templating'),
     ('matlab', 'MATLAB'),
     ('nginx', 'nginx'),
     ('powershell', 'PowerShell'),
@@ -379,3 +370,6 @@ WAGTAIL_CODE_BLOCK_LANGUAGES = (
     ('wolfram', 'Wolfram Mathematica'),
 
 )
+
+
+# Nav menus

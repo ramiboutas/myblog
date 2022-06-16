@@ -4,17 +4,10 @@ This a Wagtail blog created by @ramiboutas
 
 ## To do:
 
-* set up celery
 
 * Auto promoting page instances in instagram (3 accounts es, en, de): auto generate images from page instance titles and post it through the API https://developers.facebook.com/docs/instagram-api/guides/content-publishing/?locale=es_ES
 
 * Auto promoting in facebook (3 pages es, en, de): post it through the API, https://developers.facebook.com/docs/pages/publishing/
-
-
-* promoting in telegram: add more channel (excel-vba and web-dev)
-
-
-* promoting in Linkedin: add pdf file to post
 
 
 * set up:  wagtail-nav-menus 3.8 https://pypi.org/project/wagtail-nav-menus/ `pip install wagtail-nav-menus`

@@ -16,7 +16,7 @@
         {{ self.first_published_at | date:"d N Y" }}
       </p>
       <p class="col-6 text-end animate__animated animate__slideInLeft animate__delay-1s">
-        {% if self.owner.wagtail_userprofile.avatar.url %}
+        {% if self.owner.wagtail_userprofile.avatar %}
           <img class="avatar avatar-32 bg-light rounded-circle text-white"
             width="32" height="32" src="{{self.owner.wagtail_userprofile.avatar.url}}">
         {% else %}
