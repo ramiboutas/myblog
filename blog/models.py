@@ -49,6 +49,7 @@ class BlogCategory(models.Model):
         return self.name
 
 
+
 class BlogPostPage(MetadataPageMixin, Page):
     """Parental post blog page. """
     localize_default_translation_mode = "simple"
@@ -123,6 +124,8 @@ class BlogPostPage(MetadataPageMixin, Page):
             FieldPanel('create_pdf'),
         ]
 
+
+
     def serve(self, request):
         self.view_count += 1
         self.save()
@@ -154,20 +157,9 @@ class BlogListingPage(RoutablePageMixin, Page):
         return BlogPostPage.objects.live().filter(
             locale=Locale.get_active(), show_in_listings=True).order_by('-first_published_at')
 
-    @route(r'^category/(?P<category>[-\w]+)/$')
-    def post_by_category(self, request, category, *args, **kwargs):
-        self.posts = self.get_posts().filter(categories__blog_category__slug=category)
-        return self.render(request)
-
-    @route(r'^$')
-    def post_list(self, request, *args, **kwargs):
-        self.posts = self.get_posts()
-        return self.render(request)
-
     # https://www.accordbox.com/blog/wagtail-seo-guide/#sitemap
     def get_sitemap_urls(self, request):
         # Uncomment to have no sitemap for this page
-        # return []
         sitemap = super().get_sitemap_urls(request)
         # sitemap.append(
         #     {
@@ -178,6 +170,19 @@ class BlogListingPage(RoutablePageMixin, Page):
         # )
         return sitemap
 
+    @route(r'^category/(?P<cat_slug>[-\w]+)/$')
+    def posts_by_category(self, request, cat_slug, *args, **kwargs):
+        all_posts = self.get_posts().filter(categories__slug=cat_slug)
+        posts = self.get_page_posts(all_posts, request)
+        return self.render(request, context_overrides={'posts': posts,})
+
+
+    @route(r'^$')
+    def post_list(self, request, *args, **kwargs):
+        self.posts = self.get_posts()
+        return self.render(request)
+
+
     def get_context(self, request, *args, **kwargs):
         """ Adding custom stuff to our context """
         context = super().get_context(request, *args, **kwargs)
@@ -187,7 +192,14 @@ class BlogListingPage(RoutablePageMixin, Page):
             tags = request.GET.get("tag")
             all_posts = all_posts.filter(tags__slug__in=[tags])
 
-        paginator = Paginator(all_posts, 2)
+        posts = self.get_page_posts(all_posts, request)
+
+        context['posts'] = posts
+        context['categories'] = BlogCategory.objects.all()
+        return context
+
+    def get_page_posts(self, posts, request):
+        paginator = Paginator(posts, 2)
         page = request.GET.get("page")
         try:
             posts = paginator.page(page)
@@ -195,7 +207,4 @@ class BlogListingPage(RoutablePageMixin, Page):
             posts = paginator.page(1)
         except EmptyPage as e:
             posts = paginator.page(paginator.num_pages)
-
-        context['posts'] = posts
-        context['categories'] = BlogCategory.objects.all()
-        return context
+        return posts
