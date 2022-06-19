@@ -59,8 +59,12 @@ class BlogPostPage(MetadataPageMixin, Page):
 
     categories = ParentalManyToManyField("blog.BlogCategory", blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
+
+    # settings and statistics
     view_count = models.PositiveBigIntegerField(default=0, blank=True)
     show_in_listings = models.BooleanField(default=True)
+
+    # asociated files
     create_pdf = models.BooleanField(default=False)
     pdf = models.ForeignKey('wagtaildocs.Document', null=True, blank=True,
                             on_delete=models.SET_NULL, related_name='+')
@@ -125,7 +129,6 @@ class BlogPostPage(MetadataPageMixin, Page):
         ]
 
 
-
     def serve(self, request):
         self.view_count += 1
         self.save()
@@ -148,14 +151,49 @@ class BlogListingPage(RoutablePageMixin, Page):
     subpage_types = ['blog.BlogPostPage']
     template_name = 'blog/blog_listing_page.html'
 
-    custom_title = models.CharField(max_length=100, blank=False, null=False, help_text='Overwrites the default title')
-    content_panels = Page.content_panels + [
-            FieldPanel('custom_title'),
-    ]
 
     def get_posts(self):
         return BlogPostPage.objects.live().filter(
             locale=Locale.get_active(), show_in_listings=True).order_by('-first_published_at')
+
+    @route(r'^category/(?P<cat_slug>[-\w]+)/$')
+    def posts_by_category(self, request, cat_slug, *args, **kwargs):
+        all_posts = self.get_posts().filter(categories__slug=cat_slug)
+        posts = self.get_page_posts(all_posts, request)
+        return self.render(request, context_overrides={'posts': posts,})
+
+    @route(r'^tag/(?P<tag_slug>[-\w]+)/$')
+    def posts_by_tag(self, request, tag_slug, *args, **kwargs):
+        all_posts = self.get_posts().filter(tags__slug__in=[tag_slug])
+        posts = self.get_page_posts(all_posts, request)
+        return self.render(request, context_overrides={'posts': posts,})
+
+    @route(r'^$')
+    def post_list(self, request, *args, **kwargs):
+        self.posts = self.get_posts()
+        return self.render(request)
+
+    def get_context(self, request, *args, **kwargs):
+        """ Adding custom stuff to our context """
+        context = super().get_context(request, *args, **kwargs)
+        all_posts = BlogPostPage.objects.live().public().order_by('-first_published_at')
+        posts = self.get_page_posts(all_posts, request)
+        context['blog_page'] = self
+        context['posts'] = posts
+        context['categories'] = BlogCategory.objects.all()
+        context['page_tags'] = BlogPageTag.objects.all()
+        return context
+
+    def get_page_posts(self, posts, request):
+        paginator = Paginator(posts, 10)
+        page = request.GET.get("page")
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger as e:
+            posts = paginator.page(1)
+        except EmptyPage as e:
+            posts = paginator.page(paginator.num_pages)
+        return posts
 
     # https://www.accordbox.com/blog/wagtail-seo-guide/#sitemap
     def get_sitemap_urls(self, request):
@@ -169,42 +207,3 @@ class BlogListingPage(RoutablePageMixin, Page):
         #     }
         # )
         return sitemap
-
-    @route(r'^category/(?P<cat_slug>[-\w]+)/$')
-    def posts_by_category(self, request, cat_slug, *args, **kwargs):
-        all_posts = self.get_posts().filter(categories__slug=cat_slug)
-        posts = self.get_page_posts(all_posts, request)
-        return self.render(request, context_overrides={'posts': posts,})
-
-
-    @route(r'^$')
-    def post_list(self, request, *args, **kwargs):
-        self.posts = self.get_posts()
-        return self.render(request)
-
-
-    def get_context(self, request, *args, **kwargs):
-        """ Adding custom stuff to our context """
-        context = super().get_context(request, *args, **kwargs)
-        all_posts = BlogPostPage.objects.live().public().order_by('-first_published_at')
-
-        if request.GET.get("tag", None):
-            tags = request.GET.get("tag")
-            all_posts = all_posts.filter(tags__slug__in=[tags])
-
-        posts = self.get_page_posts(all_posts, request)
-
-        context['posts'] = posts
-        context['categories'] = BlogCategory.objects.all()
-        return context
-
-    def get_page_posts(self, posts, request):
-        paginator = Paginator(posts, 2)
-        page = request.GET.get("page")
-        try:
-            posts = paginator.page(page)
-        except PageNotAnInteger as e:
-            posts = paginator.page(1)
-        except EmptyPage as e:
-            posts = paginator.page(paginator.num_pages)
-        return posts

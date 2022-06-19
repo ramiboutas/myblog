@@ -5,7 +5,7 @@ from wagtail.core.fields import RichTextField
 from wagtail.admin.edit_handlers import FieldPanel, PageChooserPanel, ObjectList, TabbedInterface, MultiFieldPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from blog.models import BlogCategory, BlogPostPage
+from blog.models import BlogCategory, BlogPostPage, BlogListingPage
 
 class HomePage(Page):
     template = 'home/home_page.html'
@@ -46,6 +46,9 @@ class HomePage(Page):
                     locale=Locale.get_active(), show_in_listings=True).order_by('-first_published_at')[:10]
         popular_posts = BlogPostPage.objects.live().filter(
                     locale=Locale.get_active(), show_in_listings=True).order_by('-view_count')[:5]
+
+        blog_page = BlogListingPage.objects.live().filter(locale=Locale.get_active())[0]
+        context['blog_page'] = blog_page
         context['recent_posts'] = recent_posts
         context['popular_posts'] = popular_posts
         context['categories'] = BlogCategory.objects.all()

@@ -49,6 +49,9 @@
         {% analytical_body_top %}
         {% wagtailuserbar %}
 
+        <!-- modals -->
+        <div id="modals-here"></div>
+
         {% include "partials/navbar.html" %}
 
         <main>
@@ -58,6 +61,7 @@
         {% include "partials/footer.html" %}
 
         {# Global javascript #}
+        <script type="text/javascript" src="{% static 'js/htmx.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bootstrap-toc.min.js' %}"></script>

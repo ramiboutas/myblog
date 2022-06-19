@@ -1,0 +1,21 @@
+{% load i18n humanize static wagtailcore_tags %}
+
+
+{% if search_results %}
+
+<div class="list-group">
+  {% for result in search_results %}
+  <a href="{% pageurl result %}" class="list-group-item list-group-item-action border-0" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ result }}</h5>
+      {% if result.first_published_at %}<small>{{ result.first_published_at | naturaltime }}</small>{% endif %}
+    </div>
+    {% if result.sub_title %}<p class="mb-1">{{ result.sub_title }}</p>{% endif %}
+    {% if result.search_description %}<small>{{ result.search_description }}</small>{% endif %}
+  </a>
+  {% endfor %}
+</div>
+
+{% elif search_query %}
+  <p class="text-center">{% trans "No results found" %}</p>
+{% endif %}

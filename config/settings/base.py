@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'wagtail.admin',
     'wagtail.core',
     'wagtail.api.v2',
+    'wagtail.contrib.routable_page',
 
 
     'django_extensions',
@@ -62,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'django.contrib.humanize',
 
     'analytical',
     'captcha',

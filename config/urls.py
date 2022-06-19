@@ -23,6 +23,8 @@ urlpatterns = [
 
 urlpatterns = urlpatterns + i18n_patterns(
     path('search/', search_views.search, name='search'),
+    path('open-search-modal/', search_views.open_search_modal, name='open_search_modal'),
+    path('close-search-modal/', search_views.close_search_modal, name='close_search_modal'),
 )
 
 if settings.DEBUG:

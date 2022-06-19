@@ -6,7 +6,7 @@
 {% block content %}
 
 
-<header class="p-4 p-md-5 mb-4 text-light rounded bg-secondary">
+<header class="p-4 p-md-5 mb-4 rounded text-secondary bg-light">
   <div class="col px-0">
     <h1 class="display-3 text-center my-5 animate__animated animate__backInUp">{{ self.title }}</h1>
     <div class="row">
@@ -26,9 +26,9 @@
       <article class="blog-post">
         <h3 class="blog-post-title"><a href="{{ post.url }}">{{ post.title }}</a></h3>
         <div class="row">
-          <p class="col-2 blog-post-meta"><i class="bi bi-calendar-check"></i> {{ post.first_published_at | date:"d N Y" }}</p>
+          <p class="col-md-2 col-sm-4 blog-post-meta"><i class="bi bi-calendar-check"></i> {{ post.first_published_at | date:"d N Y" }}</p>
           {% if post.search_description %}
-            <small class="col-10 blog-post-meta" ><i class="bi bi-file-earmark-richtext"></i> {{ post.search_description }} </small>
+            <small class="col-md-10 col-sm-8 blog-post-meta" ><i class="bi bi-file-earmark-richtext"></i> {{ post.search_description }} </small>
           {% endif %}
         </div>
       </article>
@@ -49,9 +49,6 @@
           {% endfor %}
         </ul>
       </div>
-      <div class="p-4 mb-3 bg-light rounded">
-      </div>
-      {% include "partials/sidebar_categories.html" %}
     </div>
   </div>
 </div>

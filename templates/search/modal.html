@@ -1,0 +1,38 @@
+{% load i18n static %}
+<!-- Modal -->
+<div id="search-modal">
+  <div id="publication-modal-backdrop" class="modal-backdrop fade show" style="display:block;"></div>
+    <div id="publication-modal" class="modal fade show" style="display:block;" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="exampleModalLabel"><i class="bi bi-search"></i> {% trans "Search" %}</h5>
+            <button type="button" class="btn-close"
+              hx-get="{% url 'close_search_modal' %}" hx-target="#search-modal" hx-swap="outerHTML">
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <input class="form-control form-control-lg my-3" type="text" name="query"
+               {% if search_query %} value="{{ search_query }}"{% endif %}
+               hx-get="{% url 'search' %}"
+               hx-trigger="keyup changed delay:500ms, search"
+               hx-target="#search-results"
+               hx-indicator=".htmx-indicator">
+            <span class="htmx-indicator d-flex justify-content-center">
+              <div class="spinner-border" role="status"></div> <span>{% trans "Searching..." %}</span>
+            </span>
+            <div id="search-results"></div>
+          </div>
+
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-secondary"
+              hx-get="{% url 'close_search_modal' %}" hx-target="#search-modal" hx-swap="outerHTML">
+              {% translate "Close"%}
+            </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

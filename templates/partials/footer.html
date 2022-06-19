@@ -1,6 +1,39 @@
-<footer class="blog-footer">
-  <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
-  <p>
-    <a href="#">Back to top</a>
-  </p>
+{% load wagtailroutablepage_tags wagtailcore_tags %}
+<footer class="pt-4 my-md-5 pt-md-5 border-top bg-light">
+  <div class="row">
+    <div class="col-12 col-md">
+      <p class="text-center">RamiBoutas</p>
+      <small class="d-block mb-3 text-muted text-center" >&copy; {% now 'Y' %}</small>
+    </div>
+    <div class="col-6 col-md">
+      <h5>Blog</h5>
+      <ul class="list-unstyled text-small">
+        {% for category in categories %}
+          <li class="mb-1">
+            <a class="link-secondary text-decoration-none"
+              href="{% routablepageurl blog_page 'posts_by_category' category.slug %}">{{ category.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-6 col-md">
+      <h5>@ToDo: Whatever</h5>
+      <ul class="list-unstyled text-small">
+        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource</a></li>
+        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource name</a></li>
+        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Another resource</a></li>
+        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
+      </ul>
+    </div>
+    <div class="col-6 col-md">
+      <h5>@ToDo: About the site</h5>
+      <ul class="list-unstyled text-small">
+        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Team</a></li>
+        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
+        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
+        <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
+      </ul>
+    </div>
+  </div>
 </footer>

@@ -1,54 +1,73 @@
 {% extends "base.html" %}
-{% load cache %}
-{% load wagtailimages_tags %}
+{% load cache i18n wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
 
 {% block content %}
 
 
+<header class="p-4 p-md-5 mb-4 rounded text-secondary bg-light">
+  <div class="col px-0">
+    <h1 class="display-3 text-center my-5 animate__animated animate__backInUp">{{ self.title }}</h1>
+  </div>
+</header>
 
-<h1 class="text-center"> {{ self.title }} </h1>
 
-<h2>Categories</h2>
-<ul>
-  {% for category in categories %}
-    <li> <a href="?category={{ category.slug }}">{{ category.name }}</a> </li>
-  {% endfor %}
-</ul>
-
-<div class="container mt-3">
-  {% for post in posts %}
-      <div class="row mb-3">
-        <div class="col-sm-4">
-          <a href="{{ post.url }}">{{post.title}}</a>
-        </div>
-      </div>
-  {% endfor %}
-</div>
-
-{% if posts.paginator.num_pages > 1 %}
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="pagination">
-          {% if posts.has_previous %}
-            <li class="page-item">
-              <a class="page-link" href="?page={{posts.previous_page_number}}"><span>&laquo;</span></a>
-            </li>
+<div class="row g-5">
+  <div class="col-md-8">
+    <h2 class="pb-4 mb-4 fst-italic border-bottom">{% trans "Posts" %}</h2>
+    {% for post in posts %}
+      <article class="blog-post">
+        <h3 class="blog-post-title"><a href="{{ post.url }}">{{ post.title }}</a></h3>
+        <div class="row">
+          <p class="col-2 blog-post-meta"><i class="bi bi-calendar-check"></i> {{ post.first_published_at | date:"d N Y" }}</p>
+          {% if post.search_description %}
+            <small class="col-10 blog-post-meta" ><i class="bi bi-file-earmark-richtext"></i> {{ post.search_description }} </small>
           {% endif %}
-          {% for page_num in posts.paginator.page_range %}
-            <li {% if page_num == posts.number %} class="page-item active" {% else %} class="page-item" {% endif %}>
-              <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-            </li>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+
+  <div class="col-md-4">
+    <div class="position-sticky" style="top: 2rem;">
+      <div class="p-4 mb-3 bg-light rounded">
+        <h4 class="fst-italic">{% trans "Categories" %}</h4>
+        <ul class="list-group">
+          {% for category in categories %}
+            <li> <a href="{% routablepageurl self 'posts_by_category' category.slug %}">{{ category.name }}</a></li>
           {% endfor %}
-          {% if posts.has_next %}
-            <li class="page-item">
-              <a class="page-link" href="?page={{posts.next_page_number}}"> <span>&raquo;</span> </a>
-            </li>
-          {% endif %}
-        </div>
+        </ul>
+      </div>
+      <div class="p-4 mb-3 bg-light rounded">
+        <h4 class="fst-italic">{% trans "Tags" %}</h4>
+          {% for page_tag in page_tags %}
+           <a class="btn btn-sm btn-secondary" href="{% routablepageurl self 'posts_by_tag' page_tag.tag.slug %}">{{ page_tag.tag.name }}</a>
+          {% endfor %}
       </div>
     </div>
   </div>
+</div>
+
+
+{% if posts.paginator.num_pages > 1 %}
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      {% if posts.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{posts.previous_page_number}}"><span>&laquo;</span></a>
+        </li>
+      {% endif %}
+      {% for page_num in posts.paginator.page_range %}
+        <li {% if page_num == posts.number %} class="page-item active" {% else %} class="page-item" {% endif %}>
+          <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+        </li>
+      {% endfor %}
+      {% if posts.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{posts.next_page_number}}"> <span>&raquo;</span> </a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
 {% endif %}
 
 
