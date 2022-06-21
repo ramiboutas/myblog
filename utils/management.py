@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.mail import send_mail
 
+
 def send_mail_to_admin(extra_subject="", body_text=""):
     subject = f'www.ramiboutas.com | {extra_subject}'
 

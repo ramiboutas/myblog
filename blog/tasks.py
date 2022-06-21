@@ -129,7 +129,7 @@ def promote_post_instance_in_telegram(self, instance):
 
 @shared_task(bind=True)
 def promote_post_instance_in_linkedin(self, instance):
-    #scope: w_member_social,r_liteprofile
+    # scope: w_member_social,r_liteprofile
     try:
         profile_id = settings.LINKEDIN_PROFILE_ID
         access_token = settings.LINKEDIN_ACCESS_TOKEN
@@ -146,7 +146,7 @@ def promote_post_instance_in_linkedin(self, instance):
             "specificContent": {
                 "com.linkedin.ugc.ShareContent": {
                     "shareCommentary": {
-                        "text": f'{instance.post_text_for_telegram} \n {instance.full_url} '
+                        "text": f'{instance.post_text_for_linkedin} \n {instance.full_url} '
                     },
                     "shareMediaCategory": "NONE"
                 }
