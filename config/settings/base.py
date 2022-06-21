@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'wagtailcodeblock',
     'wagtailmetadata',
     'django_tex',
+    'wagtailmenus',
 ]
 
 SITE_ID = 1
@@ -104,6 +105,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'blog.context_processors.categories',
+                'wagtailmenus.context_processors.wagtailmenus',
             ],
         },
     },
@@ -145,6 +147,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Auto-created primary keys
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

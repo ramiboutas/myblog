@@ -1,5 +1,5 @@
-{% load cache static wagtailcore_tags wagtailuserbar wagtailmetadata_tags analytical %}
-
+{% load cache static wagtailcore_tags wagtailuserbar   %}
+{% load menu_tags analytical wagtailmetadata_tags %}
 
 <!DOCTYPE html>
 <html lang="{{ request.LANGUAGE_CODE }}">
@@ -53,7 +53,7 @@
         <div id="modals-here"></div>
 
         {% include "partials/navbar.html" %}
-
+        {% main_menu max_levels=3 template="menus/custom_main_menu.html" %}
         <main>
           {% block content %}{% endblock %}
         </main>
