@@ -23,6 +23,7 @@ defusedxml==0.7.1
 Deprecated==1.2.13
 Django==4.0.5
 django-analytical==3.1.0
+django-cogwheels==0.3
 django-debug-toolbar==3.4.0
 django-dotenv==1.4.2
 django-extensions==3.1.5
@@ -89,6 +90,7 @@ wagtail-metadata==4.0.0
 wagtail-nav-menus==3.8
 wagtail-pdf-view==0.2.1
 wagtailcodeblock==1.28.0.0
+-e git+https://github.com/amajai/wagtailmenus.git@9ca87aae6d8d48c3c7045df8a0b99fcf8b50ccec#egg=wagtailmenus
 wcwidth==0.2.5
 webencodings==0.5.1
 Willow==1.4.1
